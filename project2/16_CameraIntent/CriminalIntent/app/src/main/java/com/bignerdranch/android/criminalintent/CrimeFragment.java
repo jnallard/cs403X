@@ -274,28 +274,28 @@ public class CrimeFragment extends Fragment {
                 mPhotoView.setImageBitmap(currentImage);
             }
             else{
-                mPhotoView.setImageDrawable(null);
+                mPhotoView.setImageDrawable(getResources().getDrawable(R.drawable.ic_action_camera));
             }
 
             if(prevImage1 != null) {
                 prevPictureView1.setImageBitmap(prevImage1);
             }
             else{
-                prevPictureView1.setImageDrawable(null);
+                prevPictureView1.setImageDrawable(getResources().getDrawable(R.drawable.ic_action_camera));
             }
 
             if(prevImage2 != null) {
                 prevPictureView2.setImageBitmap(prevImage2);
             }
             else{
-                prevPictureView2.setImageDrawable(null);
+                prevPictureView2.setImageDrawable(getResources().getDrawable(R.drawable.ic_action_camera));
             }
 
             if(prevImage3 != null) {
                 prevPictureView3.setImageBitmap(prevImage3);
             }
             else{
-                prevPictureView3.setImageDrawable(null);
+                prevPictureView3.setImageDrawable(getResources().getDrawable(R.drawable.ic_action_camera));
             }
         }
     }
