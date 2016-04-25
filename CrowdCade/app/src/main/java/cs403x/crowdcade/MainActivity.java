@@ -3,7 +3,10 @@ package cs403x.crowdcade;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.TabHost;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity  {
 
@@ -19,6 +22,24 @@ public class MainActivity extends AppCompatActivity  {
 
     private static final int DEFAULT_DISPLAY_COUNT = 10;
 
+    List<ArcadeEntry> arcadeEntryList;
+
+
+
+    //Use this runnable to determine what happens after the arcade locations are loaded.
+    ResponseRunnable arcadeEntriesLoaded = new ResponseRunnable() {
+        @Override
+        public void setResonseData(String data) {
+            arcadeEntryList = ArcadeEntry.fromJSONArray(data);
+        }
+
+        @Override
+        public void run() {
+            Log.d("entries", arcadeEntryList.size() + "");
+            Log.d("entries", arcadeEntryList.get(0).getJSON().toString());
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,6 +47,9 @@ public class MainActivity extends AppCompatActivity  {
         setTitle(getString(R.string.app_name));
 
         setupTabHost();
+
+        //Getting locations happens ASYNC. Modifty the runnable to change behavior
+        NetworkManager.getInstance().getArcadeEntries(arcadeEntriesLoaded);
     }
 
     @Override

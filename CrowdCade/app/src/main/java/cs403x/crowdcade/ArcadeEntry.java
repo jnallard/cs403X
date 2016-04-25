@@ -2,14 +2,19 @@ package cs403x.crowdcade;
 
 import android.location.Location;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Joshua on 4/25/2016.
  */
 public class ArcadeEntry {
 
+    private static final String ID = "id";
     private static final String NAME = "name";
     private static final String LOCATION_NAME = "locationName";
     private static final String ADDRESS = "address";
@@ -29,8 +34,25 @@ public class ArcadeEntry {
 
     int visits;
 
+    public static List<ArcadeEntry> fromJSONArray(String s){
+        List<ArcadeEntry> entries = new ArrayList<>();
+        try {
+            JSONArray array = new JSONArray(s);
+            for(int i = 0; i < array.length(); i++){
+                JSONObject obj = array.getJSONObject(i);
+                ArcadeEntry entry = new ArcadeEntry(obj);
+                entries.add(entry);
+            }
+        }
+        catch (JSONException ex){
+            ex.printStackTrace();
+        }
+        return entries;
+    }
+
     public ArcadeEntry(JSONObject obj){
         try {
+            this.id = obj.getInt(ID);
             this.name = obj.getString(NAME);
             this.locationName = obj.getString(LOCATION_NAME);
             this.address = obj.getString(ADDRESS);
@@ -56,6 +78,7 @@ public class ArcadeEntry {
     public JSONObject getJSON(){
         JSONObject obj = new JSONObject();
         try {
+            obj.put(ID, id);
             obj.put(NAME, name);
             obj.put(LOCATION_NAME, locationName);
             obj.put(ADDRESS, address);
