@@ -6,11 +6,22 @@ import android.location.Location;
  * Created by Joshua on 4/25/2016.
  */
 public class ArcadeEntry {
+
+    long id = -1;
     String name;
     String locationName;
     String address;
     Location location;
     double rating;
+
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
