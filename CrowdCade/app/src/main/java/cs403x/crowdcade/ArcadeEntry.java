@@ -2,10 +2,21 @@ package cs403x.crowdcade;
 
 import android.location.Location;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  * Created by Joshua on 4/25/2016.
  */
 public class ArcadeEntry {
+
+    private static final String NAME = "name";
+    private static final String LOCATION_NAME = "locationName";
+    private static final String ADDRESS = "address";
+    private static final String LOCATION_LON = "locationLon";
+    private static final String LOCATION_LAT = "locationLat";
+    private static final String CONDITION = "condition";
+    private static final String VISITS = "visits";
 
     long id = -1;
     String name;
@@ -14,7 +25,51 @@ public class ArcadeEntry {
 
     double locationLon;
     double locationLat;
-    double rating;
+    double condition;
+
+    int visits;
+
+    public ArcadeEntry(JSONObject obj){
+        try {
+            this.name = obj.getString(NAME);
+            this.locationName = obj.getString(LOCATION_NAME);
+            this.address = obj.getString(ADDRESS);
+            this.locationLon = obj.getDouble(LOCATION_LON);
+            this.locationLat = obj.getDouble(LOCATION_LAT);
+            this.condition = obj.getDouble(CONDITION);
+            this.visits = obj.getInt(VISITS);
+        }
+        catch(JSONException ex){
+            ex.printStackTrace();
+        }
+    }
+
+    public ArcadeEntry(String name, String locationName, String address, double locationLon, double locationLat, double condition){
+        this.name = name;
+        this.locationName = locationName;
+        this.address = address;
+        this.locationLon = locationLon;
+        this.locationLat = locationLat;
+        this.condition = condition;
+    }
+
+    public JSONObject getJSON(){
+        JSONObject obj = new JSONObject();
+        try {
+            obj.put(NAME, name);
+            obj.put(LOCATION_NAME, locationName);
+            obj.put(ADDRESS, address);
+            obj.put(LOCATION_LON, locationLon);
+            obj.put(LOCATION_LAT, locationLat);
+            obj.put(CONDITION, condition);
+            obj.put(VISITS, visits);
+        }
+        catch(JSONException ex){
+            ex.printStackTrace();
+        }
+
+        return obj;
+    }
 
 
     public long getId() {
@@ -65,13 +120,23 @@ public class ArcadeEntry {
         this.locationLat = locationLat;
     }
 
-    public double getRating() {
-        return rating;
+    public double getCondition() {
+        return condition;
     }
 
-    public void setRating(double rating) {
-        this.rating = rating;
+    public void setCondition(double rating) {
+        this.condition = rating;
     }
+
+
+    public int getVisits() {
+        return visits;
+    }
+
+    public void setVisits(int visits) {
+        this.visits = visits;
+    }
+
 
 
 }
