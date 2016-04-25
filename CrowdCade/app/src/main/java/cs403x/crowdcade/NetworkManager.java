@@ -30,8 +30,9 @@ public class NetworkManager {
         connectionThread.start();
     }
 
-    public void reportArcadeEntry(ArcadeEntry entry){
-
+    public void reportArcadeEntry(ArcadeEntry entry, ResponseRunnable toRunAfterSend){
+        ConnectionThread connectionThread = new ConnectionThread("http://jnallard.com/crowdcade?new=true", "test", toRunAfterSend, toRunAfterSend);
+        connectionThread.start();
     }
 
     public void reportArcadeEntryVisited(ArcadeEntry entry){
@@ -58,10 +59,12 @@ public class NetworkManager {
             try {
                 URL url = new URL(location);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setRequestProperty("Content-Type", "text/html; charset=UTF-8");
                 conn.setDoOutput(true);
                 OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
                 wr.write(data);
                 wr.flush();
+                wr.close();
 
                 BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
                 String line;
@@ -70,7 +73,6 @@ public class NetworkManager {
                     System.out.println(line);
                     response += line + "\n";
                 }
-                wr.close();
                 rd.close();
                 if(conn.getResponseCode() >= 200 && conn.getResponseCode() <= 299){
                     if(toRunAfterSuccessfulSend != null) {
@@ -91,6 +93,4 @@ public class NetworkManager {
             }
         }
     }
-
-
 }

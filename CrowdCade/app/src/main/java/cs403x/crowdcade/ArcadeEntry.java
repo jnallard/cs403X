@@ -95,6 +95,14 @@ public class ArcadeEntry {
     }
 
 
+
+
+    @Override
+    public String toString() {
+        return getJSON().toString();
+    }
+
+
     public long getId() {
         return id;
     }

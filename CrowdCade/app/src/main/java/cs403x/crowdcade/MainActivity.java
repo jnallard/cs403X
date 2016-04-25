@@ -36,7 +36,20 @@ public class MainActivity extends AppCompatActivity  {
         @Override
         public void run() {
             Log.d("entries", arcadeEntryList.size() + "");
-            Log.d("entries", arcadeEntryList.get(0).getJSON().toString());
+        }
+    };
+
+    //Use this runnable to determine what happens after the arcade entry is reported
+    ResponseRunnable arcadeEntryAdded = new ResponseRunnable() {
+        @Override
+        public void setResonseData(String data) {
+            arcadeEntryList = ArcadeEntry.fromJSONArray(data);
+        }
+
+        @Override
+        public void run() {
+            Log.d("entry saved", "true");
+            Log.d("entries", arcadeEntryList.size() + "");
         }
     };
 
@@ -50,6 +63,10 @@ public class MainActivity extends AppCompatActivity  {
 
         //Getting locations happens ASYNC. Modifty the runnable to change behavior
         NetworkManager.getInstance().getArcadeEntries(arcadeEntriesLoaded);
+
+        //Testing
+        ArcadeEntry testEntry = new ArcadeEntry("test2", "home", "45 street st.", 0, 0, 4.3);
+        NetworkManager.getInstance().reportArcadeEntry(testEntry, arcadeEntryAdded);
     }
 
     @Override
