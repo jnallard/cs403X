@@ -11,7 +11,9 @@ public class ArcadeEntry {
     String name;
     String locationName;
     String address;
-    Location location;
+
+    double locationLon;
+    double locationLat;
     double rating;
 
 
@@ -47,12 +49,20 @@ public class ArcadeEntry {
         this.address = address;
     }
 
-    public Location getLocation() {
-        return location;
+    public double getLocationLon() {
+        return locationLon;
     }
 
-    public void setLocation(Location location) {
-        this.location = location;
+    public void setLocationLon(double locationLon) {
+        this.locationLon = locationLon;
+    }
+
+    public double getLocationLat() {
+        return locationLat;
+    }
+
+    public void setLocationLat(double locationLat) {
+        this.locationLat = locationLat;
     }
 
     public double getRating() {
