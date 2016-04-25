@@ -1,4 +1,4 @@
-package crowdcade.cs340x.crowdcade;
+package cs403x.crowdcade;
 
 import org.junit.Test;
 
