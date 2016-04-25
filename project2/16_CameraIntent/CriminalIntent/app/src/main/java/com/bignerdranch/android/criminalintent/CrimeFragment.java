@@ -53,9 +53,7 @@ public class CrimeFragment extends Fragment {
     private ImageView prevPictureView3;
 
     private Bitmap currentImage = null;
-    private Bitmap prevImage1 = null;
-    private Bitmap prevImage2 = null;
-    private Bitmap prevImage3 = null;
+    private int pictureCount = 0;
 
     public static CrimeFragment newInstance(UUID crimeId) {
         Bundle args = new Bundle();
@@ -72,6 +70,7 @@ public class CrimeFragment extends Fragment {
         UUID crimeId = (UUID) getArguments().getSerializable(ARG_CRIME_ID);
         mCrime = CrimeLab.get(getActivity()).getCrime(crimeId);
         mPhotoFile = CrimeLab.get(getActivity()).getPhotoFile(mCrime);
+        pictureCount = 0;
     }
 
     @Override
@@ -184,6 +183,11 @@ public class CrimeFragment extends Fragment {
         prevPictureView1 = (ImageView) v.findViewById(R.id.prevPicture1);
         prevPictureView2 = (ImageView) v.findViewById(R.id.prevPicture2);
         prevPictureView3 = (ImageView) v.findViewById(R.id.prevPicture3);
+
+        mPhotoView.setImageDrawable(null);
+        prevPictureView1.setImageDrawable(null);
+        prevPictureView2.setImageDrawable(null);
+        prevPictureView3.setImageDrawable(null);
         updatePhotoView();
 
         return v;
@@ -265,11 +269,28 @@ public class CrimeFragment extends Fragment {
             Bitmap bitmap = PictureUtils.getScaledBitmap(
                     mPhotoFile.getPath(), getActivity());
 
-            prevImage3 = prevImage2;
-            prevImage2 = prevImage1;
-            prevImage1 = currentImage;
+            //prevImage3 = prevImage2;
+            //prevImage2 = prevImage1;
+            //prevImage1 = currentImage;
             currentImage = bitmap;
 
+            switch(pictureCount % 4){
+                case 0:
+                    mPhotoView.setImageBitmap(currentImage);
+                    break;
+                case 1:
+                    prevPictureView1.setImageBitmap(currentImage);
+                    break;
+                case 2:
+                    prevPictureView2.setImageBitmap(currentImage);
+                    break;
+                case 3:
+                    prevPictureView3.setImageBitmap(currentImage);
+                    break;
+            }
+
+            pictureCount++;
+            /*
             if(currentImage != null) {
                 mPhotoView.setImageBitmap(currentImage);
             }
@@ -296,7 +317,7 @@ public class CrimeFragment extends Fragment {
             }
             else{
                 prevPictureView3.setImageDrawable(getResources().getDrawable(R.drawable.ic_action_camera));
-            }
+            }*/
         }
     }
 }
