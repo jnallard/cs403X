@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity  {
 
         //Testing
         ArcadeEntry testEntry = new ArcadeEntry("test2", "home", "45 street st.", 0, 0, 4.3);
-        NetworkManager.getInstance().reportArcadeEntry(testEntry, arcadeEntryAdded);
+        //NetworkManager.getInstance().reportArcadeEntry(testEntry, arcadeEntryAdded);
     }
 
     @Override
