@@ -5,6 +5,7 @@ import android.util.Log;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.io.PrintStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -26,12 +27,12 @@ public class NetworkManager {
     }
 
     public void getArcadeEntries(ResponseRunnable toRunAfterSend){
-        ConnectionThread connectionThread = new ConnectionThread("http://jnallard.com/crowdcade", "", toRunAfterSend, toRunAfterSend);
+        ConnectionThread connectionThread = new ConnectionThread("http://jnallard.com/crowdcade/", "", toRunAfterSend, toRunAfterSend);
         connectionThread.start();
     }
 
     public void reportArcadeEntry(ArcadeEntry entry, ResponseRunnable toRunAfterSend){
-        ConnectionThread connectionThread = new ConnectionThread("http://jnallard.com/crowdcade?new=true", "test", toRunAfterSend, toRunAfterSend);
+        ConnectionThread connectionThread = new ConnectionThread("http://jnallard.com/crowdcade/?new=true", entry.toString(), toRunAfterSend, toRunAfterSend);
         connectionThread.start();
     }
 
@@ -59,12 +60,19 @@ public class NetworkManager {
             try {
                 URL url = new URL(location);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                conn.setRequestProperty("Content-Type", "text/html; charset=UTF-8");
+                //conn.setRequestProperty("Content-Type", "text/html; charset=UTF-8");
                 conn.setDoOutput(true);
-                OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
-                wr.write(data);
-                wr.flush();
-                wr.close();
+                conn.setInstanceFollowRedirects(true);
+                conn.setRequestMethod("POST");
+                conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+                conn.setRequestProperty("charset", "UTF-8");
+                conn.setFixedLengthStreamingMode(data.length());
+
+                conn.setUseCaches(false);
+                PrintStream wr = new PrintStream(conn.getOutputStream());
+                Log.d("print", data);
+                wr.print(data);
+                //wr.flush();
 
                 BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
                 String line;
@@ -74,6 +82,7 @@ public class NetworkManager {
                     response += line + "\n";
                 }
                 rd.close();
+                wr.close();
                 if(conn.getResponseCode() >= 200 && conn.getResponseCode() <= 299){
                     if(toRunAfterSuccessfulSend != null) {
                         toRunAfterSuccessfulSend.setResonseData(response);
