@@ -10,10 +10,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.TabHost;
+import android.widget.Toast;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity  {
+public class MainActivity extends AppCompatActivity {
 
 
     /**
@@ -28,6 +29,7 @@ public class MainActivity extends AppCompatActivity  {
     EditText locationNameText;
     RatingBar conditionRatingBar;
     Button submitButton;
+    TabHost tabHost;
 
     double locationLat;
     double locationLon;
@@ -35,7 +37,6 @@ public class MainActivity extends AppCompatActivity  {
     private static final int DEFAULT_DISPLAY_COUNT = 10;
 
     List<ArcadeEntry> arcadeEntryList;
-
 
 
     //Use this runnable to determine what happens after the arcade locations are loaded.
@@ -48,6 +49,13 @@ public class MainActivity extends AppCompatActivity  {
         @Override
         public void run() {
             Log.d("entries", arcadeEntryList.size() + "");
+
+            //Modify Views
+            activity.runOnUiThread(new Runnable() {
+                public void run() {
+
+                }
+            });
         }
     };
 
@@ -62,6 +70,14 @@ public class MainActivity extends AppCompatActivity  {
         public void run() {
             Log.d("entry saved", "true");
             Log.d("entries", arcadeEntryList.size() + "");
+
+            //Modify Views
+            activity.runOnUiThread(new Runnable() {
+                public void run() {
+                    makeToast("Entry Saved");
+                    tabHost.setCurrentTab(0);
+                }
+            });
         }
     };
 
@@ -76,12 +92,20 @@ public class MainActivity extends AppCompatActivity  {
         public void run() {
             Log.d("entry saved", "true");
             Log.d("entries", arcadeEntryList.size() + "");
+
+            //Modify Views
+            activity.runOnUiThread(new Runnable() {
+                public void run() {
+
+                }
+            });
         }
     };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        activity = this;
         setContentView(R.layout.activity_main);
         setTitle(getString(R.string.app_name));
 
@@ -104,7 +128,7 @@ public class MainActivity extends AppCompatActivity  {
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
     }
 
@@ -112,10 +136,10 @@ public class MainActivity extends AppCompatActivity  {
     public void onNewIntent(Intent intent) {
         Bundle extras = intent.getExtras();
 
-        if(extras != null) {
-            if(extras.containsKey("fromNotification")) {
+        if (extras != null) {
+            if (extras.containsKey("fromNotification")) {
                 boolean fromNotification = extras.getBoolean("fromNotification");
-                if(fromNotification) {
+                if (fromNotification) {
                     TabHost tabHost = (TabHost) findViewById(R.id.tabHost);
                     tabHost.setCurrentTab(1);
                 }
@@ -125,7 +149,8 @@ public class MainActivity extends AppCompatActivity  {
 
 
     private void setupTabHost() {
-        TabHost tabHost = (TabHost) findViewById(R.id.tabHost);
+        tabHost = (TabHost) findViewById(R.id.tabHost);
+        tabHost = (TabHost) findViewById(R.id.tabHost);
 
         tabHost.setup();
 
@@ -167,17 +192,21 @@ public class MainActivity extends AppCompatActivity  {
                 }
 
                 if (isAllInfoAdded) {
-                    /*
+
                     ArcadeEntry newEntry = new ArcadeEntry(gameName, locationName, "", 0, 0, conditionValue);
                     NetworkManager.getInstance().reportArcadeEntry(newEntry, arcadeEntryAdded);
-                    */
+
                 }
             }
         });
     }
 
-    public static MainActivity getActivity(){
+    public static MainActivity getActivity() {
         return activity;
+    }
+
+    public void makeToast(final String message) {
+        Toast.makeText(activity, message, Toast.LENGTH_LONG).show();
     }
 
 
