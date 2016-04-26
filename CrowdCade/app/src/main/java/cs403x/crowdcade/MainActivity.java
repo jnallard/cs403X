@@ -1,9 +1,12 @@
 package cs403x.crowdcade;
 
 import android.content.Intent;
+import android.media.Rating;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.TabHost;
@@ -22,8 +25,9 @@ public class MainActivity extends AppCompatActivity  {
 
     // Report tab UI elements
     EditText gameNameText;
-    EditText locationName;
+    EditText locationNameText;
     RatingBar conditionRatingBar;
+    Button submitButton;
 
     double locationLat;
     double locationLon;
@@ -91,6 +95,12 @@ public class MainActivity extends AppCompatActivity  {
         testEntry.setId(1);
         //NetworkManager.getInstance().reportArcadeEntry(testEntry, arcadeEntryAdded);
         NetworkManager.getInstance().reportArcadeEntryVisited(testEntry, arcadeEntryVisited);
+
+        //Initialize UI elements
+        gameNameText = (EditText) findViewById(R.id.gameNameText);
+        locationNameText = (EditText) findViewById(R.id.locationText);
+        conditionRatingBar = (RatingBar) findViewById(R.id.conditionRatingBar);
+        initializeSubmitButton();
     }
 
     @Override
@@ -128,6 +138,42 @@ public class MainActivity extends AppCompatActivity  {
         tabSpec.setContent(R.id.tabReport);
         tabSpec.setIndicator("Report");
         tabHost.addTab(tabSpec);
+    }
+
+    private void initializeSubmitButton() {
+        submitButton = (Button) findViewById(R.id.submitButton);
+
+        submitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean isAllInfoAdded = true;
+
+                // Check game name
+                String gameName = gameNameText.getText().toString().trim();
+                if (gameName.length() <= 0) {
+                    isAllInfoAdded = false;
+                }
+
+                // Check location name
+                String locationName = locationNameText.getText().toString().trim();
+                if (locationName.length() <= 0) {
+                    isAllInfoAdded = false;
+                }
+
+                // Check condition
+                float conditionValue = conditionRatingBar.getRating();
+                if (conditionValue == 0) {
+                    isAllInfoAdded = false;
+                }
+
+                if (isAllInfoAdded) {
+                    /*
+                    ArcadeEntry newEntry = new ArcadeEntry(gameName, locationName, "", 0, 0, conditionValue);
+                    NetworkManager.getInstance().reportArcadeEntry(newEntry, arcadeEntryAdded);
+                    */
+                }
+            }
+        });
     }
 
     public static MainActivity getActivity(){
