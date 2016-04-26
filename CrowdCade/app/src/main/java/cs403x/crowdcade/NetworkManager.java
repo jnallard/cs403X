@@ -4,12 +4,9 @@ import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.io.PrintStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Joshua on 4/25/2016.
@@ -36,8 +33,9 @@ public class NetworkManager {
         connectionThread.start();
     }
 
-    public void reportArcadeEntryVisited(ArcadeEntry entry){
-
+    public void reportArcadeEntryVisited(ArcadeEntry entry, ResponseRunnable toRunAfterSend){
+        ConnectionThread connectionThread = new ConnectionThread("http://jnallard.com/crowdcade/?visit=true", entry.toString(), toRunAfterSend, toRunAfterSend);
+        connectionThread.start();
     }
 
     private class ConnectionThread extends Thread {
@@ -85,7 +83,7 @@ public class NetworkManager {
                 wr.close();
                 if(conn.getResponseCode() >= 200 && conn.getResponseCode() <= 299){
                     if(toRunAfterSuccessfulSend != null) {
-                        toRunAfterSuccessfulSend.setResonseData(response);
+                        toRunAfterSuccessfulSend.setResponseData(response);
                         toRunAfterSuccessfulSend.run();
                     }
                 } else {

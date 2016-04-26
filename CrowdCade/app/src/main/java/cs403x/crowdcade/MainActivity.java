@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity  {
     //Use this runnable to determine what happens after the arcade locations are loaded.
     ResponseRunnable arcadeEntriesLoaded = new ResponseRunnable() {
         @Override
-        public void setResonseData(String data) {
+        public void setResponseData(String data) {
             arcadeEntryList = ArcadeEntry.fromJSONArray(data);
         }
 
@@ -50,7 +50,21 @@ public class MainActivity extends AppCompatActivity  {
     //Use this runnable to determine what happens after the arcade entry is reported
     ResponseRunnable arcadeEntryAdded = new ResponseRunnable() {
         @Override
-        public void setResonseData(String data) {
+        public void setResponseData(String data) {
+            arcadeEntryList = ArcadeEntry.fromJSONArray(data);
+        }
+
+        @Override
+        public void run() {
+            Log.d("entry saved", "true");
+            Log.d("entries", arcadeEntryList.size() + "");
+        }
+    };
+
+    //Use this runnable to determine what happens after the arcade entry is reported
+    ResponseRunnable arcadeEntryVisited = new ResponseRunnable() {
+        @Override
+        public void setResponseData(String data) {
             arcadeEntryList = ArcadeEntry.fromJSONArray(data);
         }
 
@@ -74,7 +88,9 @@ public class MainActivity extends AppCompatActivity  {
 
         //Testing
         ArcadeEntry testEntry = new ArcadeEntry("test2", "home", "45 street st.", 0, 0, 4.3);
+        testEntry.setId(1);
         //NetworkManager.getInstance().reportArcadeEntry(testEntry, arcadeEntryAdded);
+        NetworkManager.getInstance().reportArcadeEntryVisited(testEntry, arcadeEntryVisited);
     }
 
     @Override
