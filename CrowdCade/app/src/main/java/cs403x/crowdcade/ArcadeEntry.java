@@ -1,5 +1,6 @@
 package cs403x.crowdcade;
 
+import android.graphics.Bitmap;
 import android.location.Location;
 
 import org.json.JSONArray;
@@ -27,6 +28,7 @@ public class ArcadeEntry {
     String name;
     String locationName;
     String address;
+    Bitmap photo;
 
     double locationLon;
     double locationLat;
@@ -159,7 +161,6 @@ public class ArcadeEntry {
         this.condition = rating;
     }
 
-
     public int getVisits() {
         return visits;
     }
@@ -167,6 +168,10 @@ public class ArcadeEntry {
     public void setVisits(int visits) {
         this.visits = visits;
     }
+
+    public Bitmap getPhoto() { return photo; }
+
+    public void setPhoto(Bitmap photo) { this.photo = photo; }
 
 
 
