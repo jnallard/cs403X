@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
      */
     private CharSequence mTitle;
 
-    private static MainActivity activity;
+    private MainActivity activity = this;
 
     // Report tab UI elements
     EditText gameNameText;
@@ -40,65 +40,34 @@ public class MainActivity extends AppCompatActivity {
 
 
     //Use this runnable to determine what happens after the arcade locations are loaded.
-    ResponseRunnable arcadeEntriesLoaded = new ResponseRunnable() {
+    ResponseRunnable arcadeEntriesLoaded = new ResponseRunnable(activity) {
+
         @Override
-        public void setResponseData(String data) {
+        public void runOnMainThread() {
             arcadeEntryList = ArcadeEntry.fromJSONArray(data);
-        }
-
-        @Override
-        public void run() {
             Log.d("entries", arcadeEntryList.size() + "");
-
-            //Modify Views
-            activity.runOnUiThread(new Runnable() {
-                public void run() {
-
-                }
-            });
         }
     };
 
     //Use this runnable to determine what happens after the arcade entry is reported
-    ResponseRunnable arcadeEntryAdded = new ResponseRunnable() {
+    ResponseRunnable arcadeEntryAdded = new ResponseRunnable(activity) {
+
         @Override
-        public void setResponseData(String data) {
+        public void runOnMainThread() {
             arcadeEntryList = ArcadeEntry.fromJSONArray(data);
-        }
-
-        @Override
-        public void run() {
-            Log.d("entry saved", "true");
             Log.d("entries", arcadeEntryList.size() + "");
-
-            //Modify Views
-            activity.runOnUiThread(new Runnable() {
-                public void run() {
-                    makeToast("Entry Saved");
-                    tabHost.setCurrentTab(0);
-                }
-            });
+            makeToast("Entry Saved");
+            tabHost.setCurrentTab(0);
         }
     };
 
     //Use this runnable to determine what happens after the arcade entry is reported
-    ResponseRunnable arcadeEntryVisited = new ResponseRunnable() {
+    ResponseRunnable arcadeEntryVisited = new ResponseRunnable(activity) {
+
         @Override
-        public void setResponseData(String data) {
+        public void runOnMainThread() {
             arcadeEntryList = ArcadeEntry.fromJSONArray(data);
-        }
-
-        @Override
-        public void run() {
-            Log.d("entry saved", "true");
             Log.d("entries", arcadeEntryList.size() + "");
-
-            //Modify Views
-            activity.runOnUiThread(new Runnable() {
-                public void run() {
-
-                }
-            });
         }
     };
 
@@ -115,10 +84,10 @@ public class MainActivity extends AppCompatActivity {
         NetworkManager.getInstance().getArcadeEntries(arcadeEntriesLoaded);
 
         //Testing
-        ArcadeEntry testEntry = new ArcadeEntry("test2", "home", "45 street st.", 0, 0, 4.3);
-        testEntry.setId(1);
+        //ArcadeEntry testEntry = new ArcadeEntry("test2", "home", "45 street st.", 0, 0, 4.3);
+        //testEntry.setId(1);
         //NetworkManager.getInstance().reportArcadeEntry(testEntry, arcadeEntryAdded);
-        NetworkManager.getInstance().reportArcadeEntryVisited(testEntry, arcadeEntryVisited);
+        //NetworkManager.getInstance().reportArcadeEntryVisited(testEntry, arcadeEntryVisited);
 
         //Initialize UI elements
         gameNameText = (EditText) findViewById(R.id.gameNameText);
@@ -201,9 +170,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public static MainActivity getActivity() {
-        return activity;
-    }
 
     public void makeToast(final String message) {
         Toast.makeText(activity, message, Toast.LENGTH_LONG).show();
