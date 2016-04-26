@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.EditText;
+import android.widget.RatingBar;
 import android.widget.TabHost;
 
 import java.util.List;
@@ -18,7 +20,13 @@ public class MainActivity extends AppCompatActivity  {
 
     private static MainActivity activity;
 
+    // Report tab UI elements
+    EditText gameNameText;
+    EditText locationName;
+    RatingBar conditionRatingBar;
 
+    double locationLat;
+    double locationLon;
 
     private static final int DEFAULT_DISPLAY_COUNT = 10;
 
