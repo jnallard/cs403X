@@ -1,5 +1,11 @@
 package cs403x.crowdcade;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.content.Intent;
 import android.media.Rating;
 import android.os.Bundle;
@@ -8,10 +14,17 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.RatingBar;
 import android.widget.TabHost;
 import android.widget.Toast;
+import android.net.Uri;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Point;
+
+import java.io.File;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -25,19 +38,24 @@ public class MainActivity extends AppCompatActivity {
     private MainActivity activity = this;
 
     // Report tab UI elements
-    EditText gameNameText;
-    EditText locationNameText;
-    RatingBar conditionRatingBar;
-    Button submitButton;
-    TabHost tabHost;
+    private EditText gameNameText;
+    private EditText locationNameText;
+    private RatingBar conditionRatingBar;
+    private Button submitButton;
+    private ImageButton cameraButton;
+    private TabHost tabHost;
 
-    double locationLat;
-    double locationLon;
+    private double locationLat;
+    private double locationLon;
 
     private static final int DEFAULT_DISPLAY_COUNT = 10;
 
-    List<ArcadeEntry> arcadeEntryList;
+    private List<ArcadeEntry> arcadeEntryList;
 
+    private static final int REQUEST_PHOTO = 0;
+
+    private File photoFile;
+    private Bitmap currentImage = null;
 
     //Use this runnable to determine what happens after the arcade locations are loaded.
     ResponseRunnable arcadeEntriesLoaded = new ResponseRunnable(activity) {
@@ -93,7 +111,11 @@ public class MainActivity extends AppCompatActivity {
         gameNameText = (EditText) findViewById(R.id.gameNameText);
         locationNameText = (EditText) findViewById(R.id.locationText);
         conditionRatingBar = (RatingBar) findViewById(R.id.conditionRatingBar);
+
+        photoFile = getPhotoFile();
+
         initializeSubmitButton();
+        initializeCameraButton();
     }
 
     @Override
@@ -170,10 +192,95 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_PHOTO) {
+            receiveArcadePhoto();
+        }
+    }
+
+    private void initializeCameraButton() {
+        cameraButton = (ImageButton) findViewById(R.id.addPhotoButton);
+
+        final Intent captureImage = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+        PackageManager packageManager = getPackageManager();
+
+        boolean canTakePhoto = photoFile != null &&
+                captureImage.resolveActivity(packageManager) != null;
+        cameraButton.setEnabled(canTakePhoto);
+
+        if (canTakePhoto) {
+            Uri uri = Uri.fromFile(photoFile);
+            captureImage.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+        }
+
+        cameraButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivityForResult(captureImage, REQUEST_PHOTO);
+            }
+        });
+    }
+
+    private void receiveArcadePhoto()
+    {
+        if (photoFile != null || photoFile.exists()) {
+            Bitmap bitmap = getScaledBitmap(photoFile.getPath(), this);
+            currentImage = bitmap;
+            cameraButton.setImageBitmap(currentImage);
+        }
+    }
 
     public void makeToast(final String message) {
         Toast.makeText(activity, message, Toast.LENGTH_LONG).show();
     }
 
+    public File getPhotoFile() {
+        File externalFilesDir = getApplicationContext()
+                .getExternalFilesDir(Environment.DIRECTORY_PICTURES);
 
+        if (externalFilesDir == null) {
+            return null;
+        }
+
+        return new File(externalFilesDir, "IMG_" + createUniqueArcadeID());
+    }
+
+    private int createUniqueArcadeID()
+    {
+        return 1234;
+    }
+
+    public Bitmap getScaledBitmap(String path, Activity activity) {
+        Point size = new Point();
+        activity.getWindowManager().getDefaultDisplay()
+                .getSize(size);
+
+        return getScaledBitmap(path, size.x, size.y);
+    }
+
+    public Bitmap getScaledBitmap(String path, int destWidth, int destHeight) {
+        // read in the dimensions of the image on disk
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(path, options);
+
+        float srcWidth = options.outWidth;
+        float srcHeight = options.outHeight;
+
+        int inSampleSize = 1;
+        if (srcHeight > destHeight || srcWidth > destWidth) {
+            if (srcWidth > srcHeight) {
+                inSampleSize = Math.round(srcHeight / destHeight);
+            } else {
+                inSampleSize = Math.round(srcWidth / destWidth);
+            }
+        }
+
+        options = new BitmapFactory.Options();
+        options.inSampleSize = inSampleSize;
+
+        return BitmapFactory.decodeFile(path, options);
+    }
 }
