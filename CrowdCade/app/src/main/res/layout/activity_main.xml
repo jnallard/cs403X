@@ -43,7 +43,91 @@
                         android:paddingBottom="@dimen/activity_vertical_margin">
 
 
+                        <EditText
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/gameNameSearchBox"
+                            android:layout_alignBottom="@+id/searchGameNameButton"
+                            android:layout_toLeftOf="@+id/searchGameNameButton"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentStart="true"
+                            android:hint="Game name" />
 
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
+                            android:text="Search By Game"
+                            android:id="@+id/searchByGame"
+                            android:layout_alignParentTop="true"
+                            android:layout_centerHorizontal="true" />
+
+                        <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Search"
+                            android:id="@+id/searchGameNameButton"
+                            android:layout_below="@+id/searchByGame"
+                            android:layout_toRightOf="@+id/searchByGame"
+                            android:layout_alignParentRight="true"
+                            android:layout_alignParentEnd="true" />
+
+                        <RelativeLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="325dp"
+                            android:id="@+id/relativeLayout">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Selected Game Info"
+                                android:id="@+id/selectedGameInfo"
+                                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Game Name:"
+                                android:layout_below="@+id/selectedGameInfo"
+                                android:id="@+id/gameNameLabel" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Donkey Kong"
+                                android:id="@+id/gameName"
+                                android:layout_below="@+id/selectedGameInfo"
+                                android:layout_toRightOf="@+id/gameNameLabel"
+                                android:layout_toEndOf="@+id/gameNameLabel"
+                                android:layout_marginLeft="30dp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Location Name:"
+                                android:id="@+id/locationNameLabel"
+                                android:layout_below="@+id/gameNameLabel"
+                                android:layout_alignParentLeft="true"
+                                android:layout_alignParentStart="true" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Joe&apos;s Bowling Alley"
+                                android:id="@+id/locationName"
+                                android:layout_below="@+id/gameName"
+                                android:layout_alignLeft="@+id/gameName"
+                                android:layout_alignStart="@+id/gameName" />
+
+                            <Button
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="More Info"
+                                android:id="@+id/moveInfoButton"
+                                android:layout_alignParentBottom="true"
+                                android:layout_centerHorizontal="true" />
+                        </RelativeLayout>
 
                     </RelativeLayout>
 
