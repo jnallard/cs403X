@@ -1,12 +1,15 @@
 package cs403x.crowdcade;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Location;
+import android.util.Base64;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,12 +26,13 @@ public class ArcadeEntry {
     private static final String LOCATION_LAT = "locationLat";
     private static final String CONDITION = "condition";
     private static final String VISITS = "visits";
+    private static final String PHOTO = "photo";
 
     long id = -1;
     String name;
     String locationName;
     String address;
-    Bitmap photo;
+    Bitmap photo = null;
 
     double locationLon;
     double locationLat;
@@ -62,6 +66,9 @@ public class ArcadeEntry {
             this.locationLat = obj.getDouble(LOCATION_LAT);
             this.condition = obj.getDouble(CONDITION);
             this.visits = obj.getInt(VISITS);
+            if(obj.has(PHOTO)){
+                this.photo = getBitmapFromString(obj.getString(PHOTO));
+            }
         }
         catch(JSONException ex){
             ex.printStackTrace();
@@ -98,12 +105,47 @@ public class ArcadeEntry {
             obj.put(LOCATION_LAT, locationLat);
             obj.put(CONDITION, condition);
             obj.put(VISITS, visits);
+            if(photo != null){
+                obj.put(PHOTO, getStringFromBitmap(photo));
+            }
+            else{
+                obj.put(PHOTO, "");
+            }
         }
         catch(JSONException ex){
             ex.printStackTrace();
         }
 
         return obj;
+    }
+
+
+
+    private String getStringFromBitmap(Bitmap bitmapPicture) {
+ /*
+ * This functions converts Bitmap picture to a string which can be
+ * JSONified.
+ * */
+        final int COMPRESSION_QUALITY = 100;
+        String encodedImage;
+        ByteArrayOutputStream byteArrayBitmapStream = new ByteArrayOutputStream();
+        bitmapPicture.compress(Bitmap.CompressFormat.PNG, COMPRESSION_QUALITY,
+                byteArrayBitmapStream);
+        byte[] b = byteArrayBitmapStream.toByteArray();
+        encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
+        return encodedImage;
+    }
+
+    private Bitmap getBitmapFromString(String stringPicture) {
+        if(stringPicture.isEmpty()){
+            return null;
+        }
+/*
+* This Function converts the String back to Bitmap
+* */
+        byte[] decodedString = Base64.decode(stringPicture, Base64.DEFAULT);
+        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+        return decodedByte;
     }
 
 

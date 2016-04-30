@@ -1,8 +1,11 @@
 package cs403x.crowdcade;
 
+import android.graphics.Bitmap;
+import android.util.Base64;
 import android.util.Log;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.HttpURLConnection;
