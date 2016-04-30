@@ -81,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void runOnMainThread() {
             arcadeEntryList = ArcadeEntry.fromJSONArray(data);
+            mapFindListener.map.clear();
             Log.d("entries", arcadeEntryList.size() + "");
 
             for (ArcadeEntry entry : arcadeEntryList) {
@@ -189,6 +190,16 @@ public class MainActivity extends AppCompatActivity {
         tabSpec.setContent(R.id.tabReport);
         tabSpec.setIndicator("Report");
         tabHost.addTab(tabSpec);
+
+        tabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
+
+            @Override
+            public void onTabChanged(String tab) {
+                //Getting locations happens ASYNC. Modify the runnable to change behavior
+                NetworkManager.getInstance().getArcadeEntries(arcadeEntriesLoaded);
+            }
+
+        });
     }
 
     /**
