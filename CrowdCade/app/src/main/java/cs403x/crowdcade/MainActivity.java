@@ -1,14 +1,17 @@
 package cs403x.crowdcade;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.location.LocationManager;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.content.Intent;
 import android.media.Rating;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -25,6 +28,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Point;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -39,8 +43,11 @@ public class MainActivity extends AppCompatActivity {
     // Report tab UI elements
     private EditText gameNameText;
     private EditText locationNameText;
+    private EditText searchText;
     private RatingBar conditionRatingBar;
     private Button submitButton;
+    private Button searchButton;
+    private Button moreInfoButton;
     private ImageButton cameraButton;
     private TabHost tabHost;
 
@@ -55,6 +62,8 @@ public class MainActivity extends AppCompatActivity {
 
     private File photoFile;
     private Bitmap currentImage = null;
+
+    private ArcadeEntry selectedArcadeEntry;
 
     //Use this runnable to determine what happens after the arcade locations are loaded.
     ResponseRunnable arcadeEntriesLoaded = new ResponseRunnable(activity) {
@@ -98,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
         setupTabHost();
 
         //Getting locations happens ASYNC. Modifty the runnable to change behavior
-        NetworkManager.getInstance().getArcadeEntries(arcadeEntriesLoaded);
+        arcadeEntryList = NetworkManager.getInstance().getArcadeEntries(arcadeEntriesLoaded);
 
         //Testing
         //ArcadeEntry testEntry = new ArcadeEntry("test2", "home", "45 street st.", 0, 0, 4.3);
@@ -109,12 +118,15 @@ public class MainActivity extends AppCompatActivity {
         //Initialize UI elements
         gameNameText = (EditText) findViewById(R.id.gameNameText);
         locationNameText = (EditText) findViewById(R.id.locationText);
+        searchText = (EditText) findViewById(R.id.gameNameSearchBox);
         conditionRatingBar = (RatingBar) findViewById(R.id.conditionRatingBar);
 
         photoFile = getPhotoFile();
 
         initializeSubmitButton();
         initializeCameraButton();
+        initializeMoreInfoButton();
+        initializeSearchButton();
     }
 
     @Override
@@ -276,6 +288,46 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
+     * Initializes the search button in the find game screen
+     */
+    private void initializeSearchButton()
+    {
+        searchButton = (Button) findViewById(R.id.searchGameNameButton);
+        searchButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                String gameToSearch = searchText.getText().toString();
+                List<ArcadeEntry> searchResults = new ArrayList<ArcadeEntry>();
+
+                for(ArcadeEntry entry : arcadeEntryList)
+                {
+                    if (entry.name == gameToSearch){
+                        searchResults.add(entry);
+                    }
+                }
+
+                searchResults = sortListByDistance(searchResults);
+                populateSearchResultsWindow(searchResults);
+            }
+
+        });
+    }
+
+    private void initializeMoreInfoButton()
+    {
+        moreInfoButton = (Button) findViewById(R.id.moreInfoButton);
+        moreInfoButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+            }
+
+        });
+    }
+
+    /**
      * Creates the unique ID for the arcade entry
      * @return - The ID for the arcade entry
      */
@@ -327,5 +379,35 @@ public class MainActivity extends AppCompatActivity {
         options.inSampleSize = inSampleSize;
 
         return BitmapFactory.decodeFile(path, options);
+    }
+
+    /**
+     * Sorts the given list of arcade entries by distance to the users current location
+     * @param listToSort - The list of ArcadeEntry to sort
+     * @return - The sorted list of ArcadeEntry
+     */
+    private List<ArcadeEntry> sortListByDistance(List<ArcadeEntry> listToSort)
+    {
+        List<ArcadeEntry> sortedList = new ArrayList<ArcadeEntry>();
+
+        LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+
+        //locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+        for(ArcadeEntry entry : listToSort)
+        {
+
+        }
+
+        return sortedList;
+    }
+
+    /**
+     * Creates the search results window with the given list of ArcadeEntry displayed
+     * @param searchResults - The list of ArcadeEntry to display
+     */
+    private void populateSearchResultsWindow(List<ArcadeEntry> searchResults)
+    {
+
     }
 }

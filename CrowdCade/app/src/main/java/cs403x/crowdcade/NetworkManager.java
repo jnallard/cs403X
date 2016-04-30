@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.List;
 
 /**
  * Created by Joshua on 4/25/2016.
@@ -23,9 +24,10 @@ public class NetworkManager {
         return instance;
     }
 
-    public void getArcadeEntries(ResponseRunnable toRunAfterSend){
+    public List<ArcadeEntry> getArcadeEntries(ResponseRunnable toRunAfterSend){
         ConnectionThread connectionThread = new ConnectionThread("http://jnallard.com/crowdcade/", "", toRunAfterSend, toRunAfterSend);
         connectionThread.start();
+        return null;
     }
 
     public void reportArcadeEntry(ArcadeEntry entry, ResponseRunnable toRunAfterSend){
