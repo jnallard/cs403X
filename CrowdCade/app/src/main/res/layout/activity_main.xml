@@ -211,13 +211,14 @@
                             android:layout_alignParentStart="true" />
 
                         <ImageButton
-                            android:layout_width="wrap_content"
+                            android:layout_width="100dp"
                             android:layout_height="wrap_content"
                             android:id="@+id/addPhotoButton"
                             android:src="@mipmap/camera_icon"
                             android:layout_above="@+id/addressLabel"
                             android:layout_alignParentRight="true"
-                            android:layout_alignParentEnd="true" />
+                            android:layout_alignParentEnd="true"
+                            android:scaleType="centerInside"/>
 
                         <TextView
                             android:layout_width="wrap_content"
