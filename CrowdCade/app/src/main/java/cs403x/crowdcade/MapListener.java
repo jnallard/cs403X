@@ -10,6 +10,8 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import cs403x.crowdcade.MainActivity;
 import cs403x.crowdcade.NetworkManager;
@@ -20,14 +22,15 @@ import cs403x.crowdcade.NetworkManager;
 public class MapListener implements OnMapReadyCallback {
 
     private MainActivity mainActivity;
+    public GoogleMap map;
+    public Marker addressMarker = null;
+    public boolean isClickable;
 
-    public MapListener(MainActivity mainActivity){
+    public MapListener(MainActivity mainActivity, boolean isClickable){
         this.mainActivity = mainActivity;
+        this.isClickable = isClickable;
     }
 
-
-
-    public GoogleMap map;
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
@@ -54,6 +57,22 @@ public class MapListener implements OnMapReadyCallback {
 
         //Getting locations happens ASYNC. Modify the runnable to change behavior
         NetworkManager.getInstance().getArcadeEntries(mainActivity.arcadeEntriesLoaded);
+
+        if (isClickable){
+            map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+
+                @Override
+                public void onMapClick(LatLng latLng) {
+                    if (addressMarker == null){
+                        addressMarker = map.addMarker(new MarkerOptions().position(latLng));
+                    }
+                    else{
+                        addressMarker.setPosition(latLng);
+                    }
+                }
+
+            });
+        }
     }
 
     private void centerMapOnMyLocation(float zoomLevel) {
@@ -78,5 +97,12 @@ public class MapListener implements OnMapReadyCallback {
         catch (SecurityException ex){
             ex.printStackTrace();
         }
+    }
+
+    public LatLng getSelectedLocation(){
+        if (addressMarker != null) {
+            return addressMarker.getPosition();
+        }
+        return null;
     }
 }

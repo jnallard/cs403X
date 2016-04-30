@@ -75,7 +75,7 @@ public class ArcadeEntry {
         }
     }
 
-    public ArcadeEntry(String name, String locationName, String address, double locationLon, double locationLat, double condition){
+    public ArcadeEntry(String name, String locationName, String address, double locationLat, double locationLon, double condition){
         this.name = name;
         this.locationName = locationName;
         this.address = address;
@@ -84,7 +84,7 @@ public class ArcadeEntry {
         this.condition = condition;
     }
 
-    public ArcadeEntry(String name, String locationName, String address, double locationLon, double locationLat, double condition, Bitmap photo) {
+    public ArcadeEntry(String name, String locationName, String address, double locationLat, double locationLon, double condition, Bitmap photo) {
         this.name = name;
         this.locationName = locationName;
         this.address = address;

@@ -40,8 +40,8 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
 
-    MapListener mapFindListener = new MapListener(this);
-    MapListener mapReportListener = new MapListener(this);
+    MapListener mapFindListener = new MapListener(this, false);
+    MapListener mapReportListener = new MapListener(this, true);
 
     /**
      * Used to store the last screen title. For use in .
@@ -214,6 +214,12 @@ public class MainActivity extends AppCompatActivity {
                     isAllInfoAdded = false;
                 }
 
+                // Check location coordinates
+                LatLng selectedLocation = mapReportListener.getSelectedLocation();
+                if (selectedLocation == null) {
+                    isAllInfoAdded = false;
+                }
+
                 // Check condition
                 float conditionValue = conditionRatingBar.getRating();
                 if (conditionValue == 0) {
@@ -227,12 +233,12 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 if (isAllInfoAdded) {
-                    ArcadeEntry newEntry = null;
+                    ArcadeEntry newEntry;
 
                     if (hasPhoto) {
-                        newEntry = new ArcadeEntry(gameName, locationName, "", 0, 0, conditionValue, currentImage);
+                        newEntry = new ArcadeEntry(gameName, locationName, "", selectedLocation.latitude, selectedLocation.longitude, conditionValue, currentImage);
                     } else {
-                        newEntry = new ArcadeEntry(gameName, locationName, "", 0, 0, conditionValue);
+                        newEntry = new ArcadeEntry(gameName, locationName, "", selectedLocation.latitude, selectedLocation.longitude, conditionValue);
                     }
 
                     NetworkManager.getInstance().reportArcadeEntry(newEntry, arcadeEntryAdded);
