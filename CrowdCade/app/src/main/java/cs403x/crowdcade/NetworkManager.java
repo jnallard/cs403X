@@ -27,10 +27,9 @@ public class NetworkManager {
         return instance;
     }
 
-    public List<ArcadeEntry> getArcadeEntries(ResponseRunnable toRunAfterSend){
+    public void getArcadeEntries(ResponseRunnable toRunAfterSend){
         ConnectionThread connectionThread = new ConnectionThread("http://jnallard.com/crowdcade/", "", toRunAfterSend, toRunAfterSend);
         connectionThread.start();
-        return null;
     }
 
     public void reportArcadeEntry(ArcadeEntry entry, ResponseRunnable toRunAfterSend){

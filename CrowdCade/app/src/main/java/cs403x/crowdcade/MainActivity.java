@@ -1,6 +1,5 @@
 package cs403x.crowdcade;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -11,23 +10,18 @@ import android.location.LocationManager;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.content.Intent;
-import android.media.Rating;
 import android.os.Bundle;
-import android.provider.SyncStateContract;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TabHost;
 import android.widget.Toast;
 import android.net.Uri;
 
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
 
@@ -43,11 +37,12 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity  implements OnMapReadyCallback {
+public class MainActivity extends AppCompatActivity {
 
-    private GoogleMap mMap;
 
-    private GoogleMap mMapReport;
+    MapListener mapFindListener = new MapListener(this);
+    MapListener mapReportListener = new MapListener(this);
+
     /**
      * Used to store the last screen title. For use in .
      */
@@ -81,17 +76,22 @@ public class MainActivity extends AppCompatActivity  implements OnMapReadyCallba
     private ArcadeEntry selectedArcadeEntry;
 
     //Use this runnable to determine what happens after the arcade locations are loaded.
-    ResponseRunnable arcadeEntriesLoaded = new ResponseRunnable(activity) {
+    public ResponseRunnable arcadeEntriesLoaded = new ResponseRunnable(activity) {
 
         @Override
         public void runOnMainThread() {
             arcadeEntryList = ArcadeEntry.fromJSONArray(data);
             Log.d("entries", arcadeEntryList.size() + "");
+
+            for (ArcadeEntry entry : arcadeEntryList) {
+                LatLng entryMarker = new LatLng(entry.locationLat, entry.locationLon);
+                mapFindListener.map.addMarker(new MarkerOptions().position(entryMarker).title(entry.locationName));
+            }
         }
     };
 
     //Use this runnable to determine what happens after the arcade entry is reported
-    ResponseRunnable arcadeEntryAdded = new ResponseRunnable(activity) {
+    public ResponseRunnable arcadeEntryAdded = new ResponseRunnable(activity) {
 
         @Override
         public void runOnMainThread() {
@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity  implements OnMapReadyCallba
     };
 
     //Use this runnable to determine what happens after the arcade entry is reported
-    ResponseRunnable arcadeEntryVisited = new ResponseRunnable(activity) {
+    public ResponseRunnable arcadeEntryVisited = new ResponseRunnable(activity) {
 
         @Override
         public void runOnMainThread() {
@@ -123,17 +123,15 @@ public class MainActivity extends AppCompatActivity  implements OnMapReadyCallba
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+        mapFragment.getMapAsync(mapFindListener);
 
 
         SupportMapFragment mapFragmentReport = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map_report);
-        mapFragmentReport.getMapAsync(this);
+
+        mapFragmentReport.getMapAsync(mapReportListener);
 
         setupTabHost();
-
-        //Getting locations happens ASYNC. Modifty the runnable to change behavior
-        arcadeEntryList = NetworkManager.getInstance().getArcadeEntries(arcadeEntriesLoaded);
 
         //Testing
         //ArcadeEntry testEntry = new ArcadeEntry("test2", "home", "45 street st.", 0, 0, 4.3);
@@ -439,54 +437,4 @@ public class MainActivity extends AppCompatActivity  implements OnMapReadyCallba
 
 
 
-
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mMapReport = googleMap;
-        mMap = googleMap;
-
-        // Add a marker in Sydney and move the camera
-        //LatLng sydney = new LatLng(-34, 151);
-        //mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        //mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-        //mMap.moveCamera(CameraUpdateFactory.zoomTo(10.0f));
-
-        centerMapOnMyLocation(mMap, 12.5f);
-
-        centerMapOnMyLocation(mMapReport, 13.5f);
-    }
-
-    private void centerMapOnMyLocation(GoogleMap map, float zoomLevel) {
-        try {
-
-            LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-            Criteria criteria = new Criteria();
-
-            Location location = locationManager.getLastKnownLocation(locationManager.getBestProvider(criteria, false));
-            if (location != null) {
-                map.animateCamera(CameraUpdateFactory.newLatLngZoom(
-                        new LatLng(location.getLatitude(), location.getLongitude()), zoomLevel));
-
-                CameraPosition cameraPosition = new CameraPosition.Builder()
-                        .target(new LatLng(location.getLatitude(), location.getLongitude()))      // Sets the center of the map to location user
-                        .zoom(zoomLevel)                   // Sets the zoom
-                        .bearing(90)                // Sets the orientation of the camera to east
-                        .build();                   // Creates a CameraPosition from the builder
-                map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-
-            }
-        }
-        catch (SecurityException ex){
-            ex.printStackTrace();
-        }
-    }
 }
