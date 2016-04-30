@@ -33,6 +33,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -364,11 +365,13 @@ public class MainActivity extends AppCompatActivity {
     private void initializeMoreInfoButton()
     {
         moreInfoButton = (Button) findViewById(R.id.moreInfoButton);
+        final MainActivity main = this;
         moreInfoButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-
+                if(selectedArcadeEntry != null)
+                    new MoreDetailsDialog(main, selectedArcadeEntry);
             }
 
         });
@@ -378,9 +381,9 @@ public class MainActivity extends AppCompatActivity {
      * Creates the unique ID for the arcade entry
      * @return - The ID for the arcade entry
      */
-    private int createUniqueArcadeID()
+    private String createUniqueArcadeID()
     {
-        return 1234;
+        return UUID.randomUUID().toString();
     }
 
     /**
