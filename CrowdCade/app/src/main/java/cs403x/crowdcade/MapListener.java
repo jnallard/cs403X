@@ -73,6 +73,18 @@ public class MapListener implements OnMapReadyCallback {
 
             });
         }
+        else{
+            map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener(){
+
+                @Override
+                public boolean onMarkerClick(Marker marker){
+                    map.animateCamera(CameraUpdateFactory.newLatLng(marker.getPosition()));
+                    mainActivity.updateSelectedMarker(marker.getId());
+                    return true;
+                }
+
+            });
+        }
     }
 
     private void centerMapOnMyLocation(float zoomLevel) {

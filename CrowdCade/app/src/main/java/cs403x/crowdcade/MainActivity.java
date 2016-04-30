@@ -1,11 +1,8 @@
 package cs403x.crowdcade;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.location.Criteria;
-import android.location.Location;
 import android.location.LocationManager;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -19,23 +16,23 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RatingBar;
 import android.widget.TabHost;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.net.Uri;
 
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -60,6 +57,8 @@ public class MainActivity extends AppCompatActivity {
     private Button moreInfoButton;
     private ImageButton cameraButton;
     private TabHost tabHost;
+    private TextView gameNameLabelFind;
+    private TextView locationNameLabelFind;
 
     private double locationLat;
     private double locationLon;
@@ -67,6 +66,8 @@ public class MainActivity extends AppCompatActivity {
     private static final int DEFAULT_DISPLAY_COUNT = 10;
 
     private List<ArcadeEntry> arcadeEntryList;
+
+    private Map<String, ArcadeEntry> markerToEntry = new HashMap<>();
 
     private static final int REQUEST_PHOTO = 0;
 
@@ -84,9 +85,12 @@ public class MainActivity extends AppCompatActivity {
             mapFindListener.map.clear();
             Log.d("entries", arcadeEntryList.size() + "");
 
+            markerToEntry.clear();
+
             for (ArcadeEntry entry : arcadeEntryList) {
-                LatLng entryMarker = new LatLng(entry.locationLat, entry.locationLon);
-                mapFindListener.map.addMarker(new MarkerOptions().position(entryMarker).title(entry.locationName));
+                LatLng entryMarkerLoc = new LatLng(entry.locationLat, entry.locationLon);
+                Marker marker = mapFindListener.map.addMarker(new MarkerOptions().position(entryMarkerLoc).title(entry.locationName));
+                markerToEntry.put(marker.getId(), entry);
             }
         }
     };
@@ -145,6 +149,8 @@ public class MainActivity extends AppCompatActivity {
         locationNameText = (EditText) findViewById(R.id.locationText);
         searchText = (EditText) findViewById(R.id.gameNameSearchBox);
         conditionRatingBar = (RatingBar) findViewById(R.id.conditionRatingBar);
+        gameNameLabelFind = (TextView) findViewById(R.id.gameNameFind);
+        locationNameLabelFind = (TextView) findViewById(R.id.locationNameFind);
 
         photoFile = getPhotoFile();
 
@@ -452,6 +458,12 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
+    public void updateSelectedMarker(String markerId){
+        selectedArcadeEntry = markerToEntry.get(markerId);
+        if (selectedArcadeEntry != null) {
+            gameNameLabelFind.setText(selectedArcadeEntry.getName());
+            locationNameLabelFind.setText(selectedArcadeEntry.getLocationName());
+        }
+    }
 
 }
