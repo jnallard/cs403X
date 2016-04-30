@@ -5,12 +5,15 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.location.Criteria;
+import android.location.Location;
 import android.location.LocationManager;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.content.Intent;
 import android.media.Rating;
 import android.os.Bundle;
+import android.provider.SyncStateContract;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -32,6 +35,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -42,6 +46,8 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity  implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+
+    private GoogleMap mMapReport;
     /**
      * Used to store the last screen title. For use in .
      */
@@ -118,6 +124,11 @@ public class MainActivity extends AppCompatActivity  implements OnMapReadyCallba
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+
+        SupportMapFragment mapFragmentReport = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map_report);
+        mapFragmentReport.getMapAsync(this);
 
         setupTabHost();
 
@@ -440,12 +451,42 @@ public class MainActivity extends AppCompatActivity  implements OnMapReadyCallba
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        mMapReport = googleMap;
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-        mMap.moveCamera(CameraUpdateFactory.zoomTo(10.0f));
+        //LatLng sydney = new LatLng(-34, 151);
+        //mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+        //mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        //mMap.moveCamera(CameraUpdateFactory.zoomTo(10.0f));
+
+        centerMapOnMyLocation(mMap, 12.5f);
+
+        centerMapOnMyLocation(mMapReport, 13.5f);
+    }
+
+    private void centerMapOnMyLocation(GoogleMap map, float zoomLevel) {
+        try {
+
+            LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+            Criteria criteria = new Criteria();
+
+            Location location = locationManager.getLastKnownLocation(locationManager.getBestProvider(criteria, false));
+            if (location != null) {
+                map.animateCamera(CameraUpdateFactory.newLatLngZoom(
+                        new LatLng(location.getLatitude(), location.getLongitude()), zoomLevel));
+
+                CameraPosition cameraPosition = new CameraPosition.Builder()
+                        .target(new LatLng(location.getLatitude(), location.getLongitude()))      // Sets the center of the map to location user
+                        .zoom(zoomLevel)                   // Sets the zoom
+                        .bearing(90)                // Sets the orientation of the camera to east
+                        .build();                   // Creates a CameraPosition from the builder
+                map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+
+            }
+        }
+        catch (SecurityException ex){
+            ex.printStackTrace();
+        }
     }
 }
