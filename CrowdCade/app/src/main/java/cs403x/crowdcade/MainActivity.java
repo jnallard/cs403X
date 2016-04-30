@@ -29,7 +29,6 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-
     /**
      * Used to store the last screen title. For use in .
      */
@@ -156,6 +155,9 @@ public class MainActivity extends AppCompatActivity {
         tabHost.addTab(tabSpec);
     }
 
+    /**
+     * Initializes the submit button and its click listener
+     */
     private void initializeSubmitButton() {
         submitButton = (Button) findViewById(R.id.submitButton);
 
@@ -182,9 +184,21 @@ public class MainActivity extends AppCompatActivity {
                     isAllInfoAdded = false;
                 }
 
-                if (isAllInfoAdded) {
+                // Check if it has a photo
+                boolean hasPhoto = true;
+                if (currentImage == null) {
+                    hasPhoto = false;
+                }
 
-                    ArcadeEntry newEntry = new ArcadeEntry(gameName, locationName, "", 0, 0, conditionValue);
+                if (isAllInfoAdded) {
+                    ArcadeEntry newEntry = null;
+
+                    if (hasPhoto) {
+                        newEntry = new ArcadeEntry(gameName, locationName, "", 0, 0, conditionValue, currentImage);
+                    } else {
+                        newEntry = new ArcadeEntry(gameName, locationName, "", 0, 0, conditionValue);
+                    }
+
                     NetworkManager.getInstance().reportArcadeEntry(newEntry, arcadeEntryAdded);
 
                 }
@@ -199,8 +213,14 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Initializes the camera button and its click listener
+     */
     private void initializeCameraButton() {
         cameraButton = (ImageButton) findViewById(R.id.addPhotoButton);
+
+        cameraButton.setMaxHeight(cameraButton.getHeight());
+        cameraButton.setMaxWidth(cameraButton.getWidth());
 
         final Intent captureImage = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
@@ -223,6 +243,10 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Receives the photo of the arcade cabinet from the camera and sets the camera image button src
+     * to the received photo
+     */
     private void receiveArcadePhoto()
     {
         if (photoFile != null || photoFile.exists()) {
@@ -236,6 +260,10 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(activity, message, Toast.LENGTH_LONG).show();
     }
 
+    /**
+     * Creates a file for the photo of the arcade machine based on its unique ID
+     * @return - The file for the arcade photo
+     */
     public File getPhotoFile() {
         File externalFilesDir = getApplicationContext()
                 .getExternalFilesDir(Environment.DIRECTORY_PICTURES);
@@ -247,11 +275,21 @@ public class MainActivity extends AppCompatActivity {
         return new File(externalFilesDir, "IMG_" + createUniqueArcadeID());
     }
 
+    /**
+     * Creates the unique ID for the arcade entry
+     * @return - The ID for the arcade entry
+     */
     private int createUniqueArcadeID()
     {
         return 1234;
     }
 
+    /**
+     * Used for scaling bitmaps that are received from the camera
+     * @param path
+     * @param activity
+     * @return - The scaled bitmap
+     */
     public Bitmap getScaledBitmap(String path, Activity activity) {
         Point size = new Point();
         activity.getWindowManager().getDefaultDisplay()
@@ -260,6 +298,13 @@ public class MainActivity extends AppCompatActivity {
         return getScaledBitmap(path, size.x, size.y);
     }
 
+    /**
+     * Used for scaling bitmaps that are received from the camera
+     * @param path - The path of the image
+     * @param destWidth
+     * @param destHeight
+     * @return - The scaled bitmap
+     */
     public Bitmap getScaledBitmap(String path, int destWidth, int destHeight) {
         // read in the dimensions of the image on disk
         BitmapFactory.Options options = new BitmapFactory.Options();

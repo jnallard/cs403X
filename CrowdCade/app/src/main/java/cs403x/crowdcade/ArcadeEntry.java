@@ -77,6 +77,16 @@ public class ArcadeEntry {
         this.condition = condition;
     }
 
+    public ArcadeEntry(String name, String locationName, String address, double locationLon, double locationLat, double condition, Bitmap photo) {
+        this.name = name;
+        this.locationName = locationName;
+        this.address = address;
+        this.locationLon = locationLon;
+        this.locationLat = locationLat;
+        this.condition = condition;
+        this.photo = photo;
+    }
+
     public JSONObject getJSON(){
         JSONObject obj = new JSONObject();
         try {
