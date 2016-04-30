@@ -96,6 +96,16 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+    //Use this runnable to determine what happens after the term has been searched
+    public ResponseRunnable arcadeEntriesSearched = new ResponseRunnable(activity) {
+
+        @Override
+        public void runOnMainThread() {
+            arcadeEntryList = ArcadeEntry.fromJSONArray(data);
+            Log.d("entries", arcadeEntryList.size() + "");
+        }
+    };
+
     //Use this runnable to determine what happens after the arcade entry is reported
     public ResponseRunnable arcadeEntryAdded = new ResponseRunnable(activity) {
 

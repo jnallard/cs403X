@@ -1,6 +1,7 @@
 package cs403x.crowdcade;
 
 import android.graphics.Bitmap;
+import android.text.Html;
 import android.util.Base64;
 import android.util.Log;
 
@@ -29,6 +30,11 @@ public class NetworkManager {
 
     public void getArcadeEntries(ResponseRunnable toRunAfterSend){
         ConnectionThread connectionThread = new ConnectionThread("http://jnallard.com/crowdcade/", "", toRunAfterSend, toRunAfterSend);
+        connectionThread.start();
+    }
+
+    public void searchArcadeEntries(ResponseRunnable toRunAfterSend, String searchTerm){
+        ConnectionThread connectionThread = new ConnectionThread("http://jnallard.com/crowdcade/?search="+searchTerm, "", toRunAfterSend, toRunAfterSend);
         connectionThread.start();
     }
 
