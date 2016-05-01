@@ -3,6 +3,13 @@ package cs403x.crowdcade;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.RatingBar;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 /**
  * Created by Joshua on 2/23/2016.
@@ -10,15 +17,47 @@ import android.view.LayoutInflater;
 public class MoreDetailsDialog {
     private ArcadeEntry entry;
 
-    public MoreDetailsDialog(MainActivity mainActivity, ArcadeEntry entry){
+    public MoreDetailsDialog(final MainActivity mainActivity, final ArcadeEntry entry){
         this.entry = entry;
 
 
         LayoutInflater inflater = mainActivity.getLayoutInflater();
+        View view = inflater.inflate(R.layout.fragment_more_details, null);
+
+        TextView gameName = (TextView) view.findViewById(R.id.gameName);
+        TextView locationName = (TextView) view.findViewById(R.id.locationName);
+        TextView address = (TextView) view.findViewById(R.id.address);
+        RatingBar condition = (RatingBar) view.findViewById(R.id.condition);
+        final TextView visits = (TextView) view.findViewById(R.id.visits);
+        final Button visitsButton = (Button) view.findViewById(R.id.visitedButton);
+        ImageView picture = (ImageView) view.findViewById(R.id.cabinetPicture);
+
+        gameName.setText(entry.getName());
+        locationName.setText(entry.getLocationName());
+        address.setText(entry.getAddress());
+        condition.setRating((float) entry.getCondition());
+        condition.setIsIndicator(true);
+        visits.setText(entry.getVisits() + "");
+        picture.setImageBitmap(entry.getPhoto());
+
+        visitsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                visitsButton.setEnabled(false);
+                NetworkManager.getInstance().reportArcadeEntryVisited(entry, new ResponseRunnable(mainActivity) {
+                    @Override
+                    public void runOnMainThread() {
+                        visits.setText((entry.visits + 1) + "");
+                    }
+                });
+            }
+        });
+
+
 
         new AlertDialog.Builder(mainActivity)
-                .setTitle(entry.getName())
-                .setView(inflater.inflate(R.layout.fragment_more_details, null))
+                .setTitle("More Details")
+                .setView(view)
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         // continue with delete

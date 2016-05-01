@@ -3,25 +3,133 @@
     android:orientation="vertical" android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
-    <ScrollView
-        android:layout_width="fill_parent"
-        android:layout_height="300dp"
-        android:id="@+id/scrollView3"
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Game Name: "
+        android:id="@+id/gameNameLabel"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentStart="true" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Test"
-            android:id="@+id/pain_notes"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:padding="5dp" />
-    </ScrollView>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Large Text"
+        android:id="@+id/gameName"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/gameNameLabel"
+        android:layout_toEndOf="@+id/gameNameLabel" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Location Name:"
+        android:id="@+id/locationNameLabel"
+        android:layout_below="@+id/gameNameLabel"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Large Text"
+        android:id="@+id/locationName"
+        android:layout_below="@+id/gameNameLabel"
+        android:layout_toRightOf="@+id/locationNameLabel"
+        android:layout_toEndOf="@+id/locationNameLabel" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Address:"
+        android:id="@+id/addressLabel"
+        android:layout_below="@+id/locationNameLabel"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Large Text"
+        android:id="@+id/address"
+        android:layout_below="@+id/locationNameLabel"
+        android:layout_toRightOf="@+id/addressLabel"
+        android:layout_toEndOf="@+id/addressLabel" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Condition:"
+        android:id="@+id/conditionLabel"
+        android:layout_below="@+id/addressLabel"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_toStartOf="@+id/gameName"
+        android:gravity="center_vertical"
+        android:layout_toLeftOf="@+id/gameName" />
+
+    <RatingBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/condition"
+        android:numStars="5"
+        android:rating="3"
+        android:stepSize="0.1"
+        android:layout_below="@+id/conditionLabel"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Visits:"
+        android:id="@+id/visitsLabel"
+        android:gravity="center_vertical"
+        android:layout_alignTop="@+id/visitedButton"
+        android:layout_alignLeft="@+id/condition"
+        android:layout_alignStart="@+id/condition"
+        android:layout_alignBottom="@+id/visitedButton" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Large Text"
+        android:id="@+id/visits"
+        android:gravity="center_vertical"
+        android:layout_alignTop="@+id/visitsLabel"
+        android:layout_toRightOf="@+id/visitsLabel"
+        android:layout_toEndOf="@+id/visitsLabel"
+        android:layout_alignBottom="@+id/visitedButton" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="I&apos;ve been here!"
+        android:id="@+id/visitedButton"
+        android:layout_below="@+id/condition"
+        android:layout_toRightOf="@+id/visits"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/cabinetPicture"
+        android:src="@mipmap/ic_launcher"
+        android:layout_below="@+id/visitedButton"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/visitedButton"
+        android:layout_alignEnd="@+id/visitedButton" />
 
 </RelativeLayout>

@@ -126,7 +126,7 @@ public class ArcadeEntry {
  * This functions converts Bitmap picture to a string which can be
  * JSONified.
  * */
-        Bitmap bitmap = getResizedBitmap(bitmapPicture, 300);
+        Bitmap bitmap = getResizedBitmap(bitmapPicture, 150);
         final int COMPRESSION_QUALITY = 100;
         String encodedImage;
         ByteArrayOutputStream byteArrayBitmapStream = new ByteArrayOutputStream();
