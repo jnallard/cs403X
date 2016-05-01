@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:padding="3dp">
 
     <TextView
         android:layout_width="wrap_content"
@@ -31,7 +32,9 @@
         android:id="@+id/locationNameLabel"
         android:layout_below="@+id/gameNameLabel"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="5dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -39,7 +42,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Large Text"
         android:id="@+id/locationName"
-        android:layout_below="@+id/gameNameLabel"
+        android:layout_above="@+id/addressLabel"
         android:layout_toRightOf="@+id/locationNameLabel"
         android:layout_toEndOf="@+id/locationNameLabel" />
 
@@ -51,7 +54,9 @@
         android:id="@+id/addressLabel"
         android:layout_below="@+id/locationNameLabel"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="5dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -59,7 +64,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Large Text"
         android:id="@+id/address"
-        android:layout_below="@+id/locationNameLabel"
+        android:layout_above="@+id/conditionLabel"
         android:layout_toRightOf="@+id/addressLabel"
         android:layout_toEndOf="@+id/addressLabel" />
 
@@ -74,7 +79,9 @@
         android:layout_alignParentStart="true"
         android:layout_toStartOf="@+id/gameName"
         android:gravity="center_vertical"
-        android:layout_toLeftOf="@+id/gameName" />
+        android:layout_toLeftOf="@+id/gameName"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="5dp" />
 
     <RatingBar
         android:layout_width="wrap_content"
@@ -97,7 +104,9 @@
         android:layout_alignTop="@+id/visitedButton"
         android:layout_alignLeft="@+id/condition"
         android:layout_alignStart="@+id/condition"
-        android:layout_alignBottom="@+id/visitedButton" />
+        android:layout_alignBottom="@+id/visitedButton"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="5dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -130,6 +139,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignRight="@+id/visitedButton"
-        android:layout_alignEnd="@+id/visitedButton" />
+        android:layout_alignEnd="@+id/visitedButton"
+        android:layout_marginTop="10dp" />
 
 </RelativeLayout>

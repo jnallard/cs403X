@@ -126,7 +126,7 @@ public class ArcadeEntry {
  * This functions converts Bitmap picture to a string which can be
  * JSONified.
  * */
-        Bitmap bitmap = getResizedBitmap(bitmapPicture, 150);
+        Bitmap bitmap = getResizedBitmap(bitmapPicture, 500);
         final int COMPRESSION_QUALITY = 100;
         String encodedImage;
         ByteArrayOutputStream byteArrayBitmapStream = new ByteArrayOutputStream();
@@ -163,6 +163,17 @@ public class ArcadeEntry {
         byte[] decodedString = Base64.decode(stringPicture, Base64.DEFAULT);
         Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
         return decodedByte;
+    }
+
+    public void loadImage(final ResponseRunnable toRunAfter, MainActivity mainActivity){
+        ResponseRunnable runnable = new ResponseRunnable(mainActivity) {
+            @Override
+            public void runOnMainThread() {
+                photo = getBitmapFromString(data);
+                toRunAfter.run();
+            }
+        };
+        NetworkManager.getInstance().loadImage(this, runnable);
     }
 
 

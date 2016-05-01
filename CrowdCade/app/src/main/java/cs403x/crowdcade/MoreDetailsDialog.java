@@ -30,7 +30,7 @@ public class MoreDetailsDialog {
         RatingBar condition = (RatingBar) view.findViewById(R.id.condition);
         final TextView visits = (TextView) view.findViewById(R.id.visits);
         final Button visitsButton = (Button) view.findViewById(R.id.visitedButton);
-        ImageView picture = (ImageView) view.findViewById(R.id.cabinetPicture);
+        final ImageView picture = (ImageView) view.findViewById(R.id.cabinetPicture);
 
         gameName.setText(entry.getName());
         locationName.setText(entry.getLocationName());
@@ -38,7 +38,7 @@ public class MoreDetailsDialog {
         condition.setRating((float) entry.getCondition());
         condition.setIsIndicator(true);
         visits.setText(entry.getVisits() + "");
-        picture.setImageBitmap(entry.getPhoto());
+        picture.setImageDrawable(mainActivity.getResources().getDrawable(R.drawable.download));
 
         visitsButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,6 +52,15 @@ public class MoreDetailsDialog {
                 });
             }
         });
+
+        ResponseRunnable runnable = new ResponseRunnable(mainActivity) {
+            @Override
+            public void runOnMainThread() {
+                picture.setImageBitmap(entry.getPhoto());
+            }
+        };
+
+        entry.loadImage(runnable, mainActivity);
 
 
 
