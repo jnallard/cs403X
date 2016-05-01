@@ -24,6 +24,8 @@ public class SearchDialog {
 
     List<ArcadeEntry> searchResults;
 
+    AlertDialog alertDialog;
+
     public SearchDialog(final MainActivity mainActivity, final String query){
         this.query = query;
 
@@ -44,10 +46,20 @@ public class SearchDialog {
                 TextView locationName = (TextView) rowView.findViewById(R.id.locationName);
                 TextView distance = (TextView) rowView.findViewById(R.id.distance);
 
-                ArcadeEntry currentEntry = getItem(position);
+                final ArcadeEntry currentEntry = getItem(position);
                 gameName.setText(currentEntry.getName());
                 address.setText(currentEntry.getAddress());
                 locationName.setText(currentEntry.getLocationName());
+
+                rowView.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+                        mainActivity.selectSearchResults(currentEntry);
+                        alertDialog.dismiss();
+                    }
+
+                });
 
                 return rowView;
             }
@@ -66,7 +78,7 @@ public class SearchDialog {
 
         NetworkManager.getInstance().searchArcadeEntries(search, query);
 
-        new AlertDialog.Builder(mainActivity)
+        alertDialog = new AlertDialog.Builder(mainActivity)
                 .setTitle("Search")
                 .setView(view)
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {

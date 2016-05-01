@@ -23,6 +23,7 @@ import android.net.Uri;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -69,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
     private List<ArcadeEntry> arcadeEntryList;
 
     private Map<String, ArcadeEntry> markerToEntry = new HashMap<>();
+    private Map<Long, Marker> entryToMarker = new HashMap<>();
 
     private static final int REQUEST_PHOTO = 0;
 
@@ -87,11 +89,13 @@ public class MainActivity extends AppCompatActivity {
             Log.d("entries", arcadeEntryList.size() + "");
 
             markerToEntry.clear();
+            entryToMarker.clear();
 
             for (ArcadeEntry entry : arcadeEntryList) {
                 LatLng entryMarkerLoc = new LatLng(entry.locationLat, entry.locationLon);
                 Marker marker = mapFindListener.map.addMarker(new MarkerOptions().position(entryMarkerLoc).title(entry.locationName));
                 markerToEntry.put(marker.getId(), entry);
+                entryToMarker.put(entry.getId(), marker);
             }
         }
     };
@@ -453,21 +457,18 @@ public class MainActivity extends AppCompatActivity {
         return sortedList;
     }
 
-    /**
-     * Creates the search results window with the given list of ArcadeEntry displayed
-     * @param searchResults - The list of ArcadeEntry to display
-     */
-    private void populateSearchResultsWindow(List<ArcadeEntry> searchResults)
-    {
-
-    }
-
     public void updateSelectedMarker(String markerId){
         selectedArcadeEntry = markerToEntry.get(markerId);
         if (selectedArcadeEntry != null) {
             gameNameLabelFind.setText(selectedArcadeEntry.getName());
             locationNameLabelFind.setText(selectedArcadeEntry.getLocationName());
         }
+    }
+
+    public void selectSearchResults(ArcadeEntry result){
+        Marker marker = entryToMarker.get(result.getId());
+        updateSelectedMarker(marker.getId());
+        mapFindListener.map.animateCamera(CameraUpdateFactory.newLatLng(marker.getPosition()));
     }
 
 }
