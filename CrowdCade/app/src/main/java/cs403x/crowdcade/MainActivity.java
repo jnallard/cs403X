@@ -436,27 +436,6 @@ public class MainActivity extends AppCompatActivity {
         return BitmapFactory.decodeFile(path, options);
     }
 
-    /**
-     * Sorts the given list of arcade entries by distance to the users current location
-     * @param listToSort - The list of ArcadeEntry to sort
-     * @return - The sorted list of ArcadeEntry
-     */
-    private List<ArcadeEntry> sortListByDistance(List<ArcadeEntry> listToSort)
-    {
-        List<ArcadeEntry> sortedList = new ArrayList<ArcadeEntry>();
-
-        LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-
-        //locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-
-        for(ArcadeEntry entry : listToSort)
-        {
-
-        }
-
-        return sortedList;
-    }
-
     public void updateSelectedMarker(String markerId){
         selectedArcadeEntry = markerToEntry.get(markerId);
         if (selectedArcadeEntry != null) {

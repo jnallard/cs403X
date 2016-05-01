@@ -5,18 +5,22 @@ import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.util.Base64;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Joshua on 4/25/2016.
  */
-public class ArcadeEntry {
+public class ArcadeEntry implements Comparable<ArcadeEntry>{
 
     private static final String ID = "id";
     private static final String NAME = "name";
@@ -39,6 +43,8 @@ public class ArcadeEntry {
     double condition;
 
     int visits;
+
+    public static Location currentLocation = null;
 
     public static List<ArcadeEntry> fromJSONArray(String s){
         List<ArcadeEntry> entries = new ArrayList<>();
@@ -176,8 +182,37 @@ public class ArcadeEntry {
         NetworkManager.getInstance().loadImage(this, runnable);
     }
 
+    @Override
+    public int compareTo(ArcadeEntry another) {
+        if (currentLocation != null) {
+            float thisDistance = getDistanceToCurrentLoc();
+            float anotherDistance = another.getDistanceToCurrentLoc();
 
+            if (thisDistance > anotherDistance){
+                return 1;
+            }
+            else{
+                return -1;
+            }
+        }
+        else {
+            return 0;
+        }
+    }
 
+    public float getDistanceToCurrentLoc(){
+        Location thisEntry = new Location(id + "");
+        thisEntry.setLatitude(this.getLocationLat());
+        thisEntry.setLongitude(this.getLocationLon());
+
+        if (currentLocation != null) {
+            float distance = currentLocation.distanceTo(thisEntry) * 0.000621371192f;
+            DecimalFormat df = new DecimalFormat("#.##");
+            df.setRoundingMode(RoundingMode.CEILING);
+            return Float.parseFloat(df.format(distance));
+        }
+        return -1;
+    }
 
     @Override
     public String toString() {

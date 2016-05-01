@@ -3,6 +3,9 @@ package cs403x.crowdcade;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +14,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -28,6 +32,8 @@ public class SearchDialog {
 
     public SearchDialog(final MainActivity mainActivity, final String query){
         this.query = query;
+
+        updateCurrentLoc(mainActivity);
 
         LayoutInflater inflater = mainActivity.getLayoutInflater();
         View view = inflater.inflate(R.layout.fragment_search, null);
@@ -50,6 +56,7 @@ public class SearchDialog {
                 gameName.setText(currentEntry.getName());
                 address.setText(currentEntry.getAddress());
                 locationName.setText(currentEntry.getLocationName());
+                distance.setText(currentEntry.getDistanceToCurrentLoc() + "");
 
                 rowView.setOnClickListener(new View.OnClickListener() {
 
@@ -71,6 +78,7 @@ public class SearchDialog {
             @Override
             public void runOnMainThread() {
                 searchResults = ArcadeEntry.fromJSONArray(data);
+                sortListByDistance(mainActivity);
                 adapter.clear();
                 adapter.addAll(searchResults);
             }
@@ -88,5 +96,23 @@ public class SearchDialog {
                 })
                 .setIcon(android.R.drawable.ic_dialog_info)
                 .show();
+    }
+
+    private void sortListByDistance(MainActivity mainActivity){
+        updateCurrentLoc(mainActivity);
+        Collections.sort(searchResults);
+    }
+
+    private void updateCurrentLoc(MainActivity mainActivity){
+        try {
+            LocationManager locationManager = (LocationManager) mainActivity.getSystemService(Context.LOCATION_SERVICE);
+            Criteria criteria = new Criteria();
+
+            Location location = locationManager.getLastKnownLocation(locationManager.getBestProvider(criteria, false));
+            ArcadeEntry.currentLocation = location;
+        }
+        catch (SecurityException e){
+            e.printStackTrace();
+        }
     }
 }
