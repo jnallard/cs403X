@@ -41,7 +41,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Large Text"
-        android:id="@+id/locationName"
+        android:id="@+id/gameName"
         android:layout_above="@+id/addressLabel"
         android:layout_toRightOf="@+id/locationNameLabel"
         android:layout_toEndOf="@+id/locationNameLabel" />

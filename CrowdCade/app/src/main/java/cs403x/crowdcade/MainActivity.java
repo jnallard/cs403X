@@ -351,22 +351,13 @@ public class MainActivity extends AppCompatActivity {
     private void initializeSearchButton()
     {
         searchButton = (Button) findViewById(R.id.searchGameNameButton);
+        final MainActivity mainActivity = this;
         searchButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 String gameToSearch = searchText.getText().toString();
-                List<ArcadeEntry> searchResults = new ArrayList<ArcadeEntry>();
-
-                for(ArcadeEntry entry : arcadeEntryList)
-                {
-                    if (entry.name == gameToSearch){
-                        searchResults.add(entry);
-                    }
-                }
-
-                searchResults = sortListByDistance(searchResults);
-                populateSearchResultsWindow(searchResults);
+                new SearchDialog(mainActivity, gameToSearch);
             }
 
         });
