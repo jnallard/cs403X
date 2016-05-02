@@ -23,7 +23,7 @@ public class MoreDetailsDialog {
         View view = inflater.inflate(R.layout.fragment_more_details, null);
 
         TextView gameName = (TextView) view.findViewById(R.id.gameName);
-        TextView locationName = (TextView) view.findViewById(R.id.gameName);
+        TextView locationName = (TextView) view.findViewById(R.id.locationName);
         TextView address = (TextView) view.findViewById(R.id.address);
         RatingBar condition = (RatingBar) view.findViewById(R.id.condition);
         final TextView visits = (TextView) view.findViewById(R.id.visits);

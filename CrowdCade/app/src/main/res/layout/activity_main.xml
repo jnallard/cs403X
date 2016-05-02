@@ -77,7 +77,7 @@
                             android:layout_centerHorizontal="true"
                             android:textSize="20dp" />
 
-                        <Button
+                        <cs403x.crowdcade.ArcadeButton
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Search"
@@ -140,7 +140,7 @@
                             android:layout_alignEnd="@+id/moreInfoButton"
                             android:layout_marginBottom="5dp" />
 
-                        <Button
+                        <cs403x.crowdcade.ArcadeButton
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="More Info"
@@ -194,15 +194,16 @@
                             android:layout_alignEnd="@+id/gameNameText"
                             android:hint="Location" />
 
-                        <cs403x.crowdcade.ArcadeTextView
+                        <EditText
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Address"
+                            android:hint="Address"
                             android:id="@+id/addressLabel"
-                            android:textSize="16dp"
                             android:layout_below="@+id/locationText"
                             android:layout_alignParentLeft="true"
-                            android:layout_alignParentStart="true" />
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true" />
 
 
 
@@ -251,7 +252,7 @@
                             android:layout_width="100dp"
                             android:layout_height="wrap_content"
                             android:id="@+id/addPhotoButton"
-                            android:src="@mipmap/camera_icon"
+                            android:src="@android:drawable/ic_menu_camera"
                             android:layout_above="@+id/addressLabel"
                             android:layout_alignParentRight="true"
                             android:layout_alignParentEnd="true"
@@ -270,7 +271,7 @@
                             android:textSize="16dp"
                             android:textAlignment="center" />
 
-                        <Button
+                        <cs403x.crowdcade.ArcadeButton
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Submit"
@@ -278,6 +279,7 @@
                             android:layout_alignParentBottom="true"
                             android:layout_alignParentRight="true"
                             android:layout_alignParentEnd="true"
+                            android:textSize="10dp"
                             android:layout_alignTop="@+id/conditionLabel"
                             android:layout_toRightOf="@+id/conditionLabel"
                             android:layout_toEndOf="@+id/conditionLabel" />

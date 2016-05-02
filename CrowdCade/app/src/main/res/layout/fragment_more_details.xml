@@ -2,9 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:padding="3dp">
+    android:padding="10dp">
 
-    <TextView
+    <cs403x.crowdcade.ArcadeTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
@@ -12,9 +12,11 @@
         android:id="@+id/gameNameLabel"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:textSize="14dp"
+        android:layout_marginBottom="5dp" />
 
-    <TextView
+    <cs403x.crowdcade.ArcadeTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
@@ -22,9 +24,11 @@
         android:id="@+id/gameName"
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/gameNameLabel"
-        android:layout_toEndOf="@+id/gameNameLabel" />
+        android:layout_toEndOf="@+id/gameNameLabel"
+        android:textSize="14dp"
+        android:layout_marginBottom="5dp" />
 
-    <TextView
+    <cs403x.crowdcade.ArcadeTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
@@ -34,19 +38,23 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="10dp"
-        android:layout_marginRight="5dp" />
+        android:layout_marginRight="5dp"
+        android:textSize="14dp"
+        android:layout_marginBottom="5dp" />
 
-    <TextView
+    <cs403x.crowdcade.ArcadeTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Large Text"
-        android:id="@+id/gameName"
+        android:id="@+id/locationName"
         android:layout_above="@+id/addressLabel"
         android:layout_toRightOf="@+id/locationNameLabel"
-        android:layout_toEndOf="@+id/locationNameLabel" />
+        android:layout_toEndOf="@+id/locationNameLabel"
+        android:textSize="14dp"
+        android:layout_marginBottom="5dp" />
 
-    <TextView
+    <cs403x.crowdcade.ArcadeTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
@@ -56,9 +64,11 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="10dp"
-        android:layout_marginRight="5dp" />
+        android:layout_marginRight="5dp"
+        android:textSize="14dp"
+        android:layout_marginBottom="5dp" />
 
-    <TextView
+    <cs403x.crowdcade.ArcadeTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
@@ -66,9 +76,11 @@
         android:id="@+id/address"
         android:layout_above="@+id/conditionLabel"
         android:layout_toRightOf="@+id/addressLabel"
-        android:layout_toEndOf="@+id/addressLabel" />
+        android:layout_toEndOf="@+id/addressLabel"
+        android:textSize="14dp"
+        android:layout_marginBottom="5dp" />
 
-    <TextView
+    <cs403x.crowdcade.ArcadeTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
@@ -81,7 +93,8 @@
         android:gravity="center_vertical"
         android:layout_toLeftOf="@+id/gameName"
         android:layout_marginTop="10dp"
-        android:layout_marginRight="5dp" />
+        android:layout_marginRight="5dp"
+        android:textSize="14dp" />
 
     <RatingBar
         android:layout_width="wrap_content"
@@ -92,9 +105,10 @@
         android:stepSize="0.1"
         android:layout_below="@+id/conditionLabel"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="5dp" />
 
-    <TextView
+    <cs403x.crowdcade.ArcadeTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
@@ -106,9 +120,11 @@
         android:layout_alignStart="@+id/condition"
         android:layout_alignBottom="@+id/visitedButton"
         android:layout_marginTop="10dp"
-        android:layout_marginRight="5dp" />
+        android:layout_marginRight="5dp"
+        android:textSize="14dp"
+        android:layout_marginBottom="5dp" />
 
-    <TextView
+    <cs403x.crowdcade.ArcadeTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
@@ -118,9 +134,11 @@
         android:layout_alignTop="@+id/visitsLabel"
         android:layout_toRightOf="@+id/visitsLabel"
         android:layout_toEndOf="@+id/visitsLabel"
-        android:layout_alignBottom="@+id/visitedButton" />
+        android:layout_alignBottom="@+id/visitedButton"
+        android:textSize="14dp"
+        android:layout_marginBottom="5dp" />
 
-    <Button
+    <cs403x.crowdcade.ArcadeButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="I&apos;ve been here!"
@@ -128,7 +146,8 @@
         android:layout_below="@+id/condition"
         android:layout_toRightOf="@+id/visits"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="5dp" />
 
     <ImageView
         android:layout_width="wrap_content"

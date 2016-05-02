@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
-import android.location.LocationManager;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.content.Intent;
@@ -31,7 +30,6 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText gameNameText;
     private EditText locationNameText;
     private EditText searchText;
+    private EditText addressText;
     private RatingBar conditionRatingBar;
     private Button submitButton;
     private Button searchButton;
@@ -170,6 +169,7 @@ public class MainActivity extends AppCompatActivity {
         conditionRatingBar = (RatingBar) findViewById(R.id.conditionRatingBar);
         gameNameLabelFind = (TextView) findViewById(R.id.gameNameFind);
         locationNameLabelFind = (TextView) findViewById(R.id.locationNameFind);
+        addressText = (EditText) findViewById(R.id.addressLabel);
 
         photoFile = getPhotoFile();
 
@@ -250,6 +250,12 @@ public class MainActivity extends AppCompatActivity {
                     isAllInfoAdded = false;
                 }
 
+                // Check location name
+                String address = addressText.getText().toString().trim();
+                if (address.length() <= 0) {
+                    isAllInfoAdded = false;
+                }
+
                 // Check location coordinates
                 LatLng selectedLocation = mapReportListener.getSelectedLocation();
                 if (selectedLocation == null) {
@@ -269,12 +275,18 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 if (isAllInfoAdded) {
+                    gameNameText.setText("");
+                    addressText.setText("");
+                    locationNameText.setText("");
+                    mapReportListener.map.clear();
+                    conditionRatingBar.setRating(0f);
+                    cameraButton.setImageDrawable(getResources().getDrawable(android.R.drawable.ic_menu_camera));
                     ArcadeEntry newEntry;
 
                     if (hasPhoto) {
-                        newEntry = new ArcadeEntry(gameName, locationName, "", selectedLocation.latitude, selectedLocation.longitude, conditionValue, currentImage);
+                        newEntry = new ArcadeEntry(gameName, locationName, address, selectedLocation.latitude, selectedLocation.longitude, conditionValue, currentImage);
                     } else {
-                        newEntry = new ArcadeEntry(gameName, locationName, "", selectedLocation.latitude, selectedLocation.longitude, conditionValue);
+                        newEntry = new ArcadeEntry(gameName, locationName, address, selectedLocation.latitude, selectedLocation.longitude, conditionValue);
                     }
 
                     NetworkManager.getInstance().reportArcadeEntry(newEntry, arcadeEntryAdded);
@@ -374,6 +386,7 @@ public class MainActivity extends AppCompatActivity {
     private void initializeMoreInfoButton()
     {
         moreInfoButton = (Button) findViewById(R.id.moreInfoButton);
+        moreInfoButton.setEnabled(false);
         final MainActivity main = this;
         moreInfoButton.setOnClickListener(new View.OnClickListener() {
 
@@ -441,6 +454,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void updateSelectedMarker(String markerId){
+
+        moreInfoButton.setEnabled(true);
         selectedArcadeEntry = markerToEntry.get(markerId);
         if (selectedArcadeEntry != null) {
             gameNameLabelFind.setText(selectedArcadeEntry.getName());
