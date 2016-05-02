@@ -3,6 +3,7 @@ package cs403x.crowdcade;
 import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Typeface;
 import android.location.LocationManager;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -79,6 +80,8 @@ public class MainActivity extends AppCompatActivity {
 
     private ArcadeEntry selectedArcadeEntry;
 
+    public static Typeface tf;
+
     //Use this runnable to determine what happens after the arcade locations are loaded.
     public ResponseRunnable arcadeEntriesLoaded = new ResponseRunnable(activity) {
 
@@ -139,7 +142,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         setTitle(getString(R.string.app_name));
 
-        ;
+        tf = Typeface.createFromAsset(getAssets(), "fonts/PressStart2P-Regular.ttf");
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -450,4 +454,7 @@ public class MainActivity extends AppCompatActivity {
         mapFindListener.map.animateCamera(CameraUpdateFactory.newLatLng(marker.getPosition()));
     }
 
+    public static void setTypeFace(TextView textView){
+        textView.setTypeface(tf);
+    }
 }

@@ -39,7 +39,7 @@
                         android:orientation="vertical"
                         android:paddingLeft="@dimen/activity_horizontal_margin"
                         android:paddingRight="@dimen/activity_horizontal_margin"
-                        android:paddingTop="10dp"
+                        android:paddingTop="15dp"
                         android:paddingBottom="@dimen/activity_vertical_margin">
 
                         <fragment xmlns:android="http://schemas.android.com/apk/res/android"
@@ -51,7 +51,9 @@
                             android:layout_below="@+id/gameNameSearchBox"
                             android:layout_alignParentLeft="true"
                             android:layout_alignParentStart="true"
-                            android:layout_above="@+id/selectedGameInfo" />
+                            android:layout_above="@+id/selectedGameInfo"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginBottom="15dp" />
 
 
 
@@ -65,14 +67,15 @@
                             android:layout_alignParentStart="true"
                             android:hint="Game name" />
 
-                        <TextView
+                        <cs403x.crowdcade.ArcadeTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textAppearance="?android:attr/textAppearanceLarge"
                             android:text="Search By Game"
                             android:id="@+id/searchByGame"
                             android:layout_alignParentTop="true"
-                            android:layout_centerHorizontal="true" />
+                            android:layout_centerHorizontal="true"
+                            android:textSize="20dp" />
 
                         <Button
                             android:layout_width="wrap_content"
@@ -80,11 +83,10 @@
                             android:text="Search"
                             android:id="@+id/searchGameNameButton"
                             android:layout_below="@+id/searchByGame"
-                            android:layout_toRightOf="@+id/searchByGame"
                             android:layout_alignParentRight="true"
                             android:layout_alignParentEnd="true" />
 
-                        <TextView
+                        <cs403x.crowdcade.ArcadeTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Selected Game Info"
@@ -94,43 +96,49 @@
                             android:layout_alignParentLeft="true"
                             android:layout_alignParentStart="true"
                             android:layout_alignParentRight="true"
-                            android:layout_alignParentEnd="true" />
+                            android:layout_alignParentEnd="true"
+                            android:textSize="16dp"
+                            android:layout_marginBottom="10dp" />
 
-                        <TextView
+                        <cs403x.crowdcade.ArcadeTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Game Name:"
                             android:id="@+id/gameNameLabel"
                             android:layout_alignTop="@+id/gameNameFind"
                             android:layout_alignParentLeft="true"
-                            android:layout_alignParentStart="true" />
+                            android:layout_alignParentStart="true"
+                            android:layout_marginBottom="5dp" />
 
-                        <TextView
+                        <cs403x.crowdcade.ArcadeTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="N/A"
                             android:id="@+id/gameNameFind"
                             android:layout_above="@+id/locationNameFind"
                             android:layout_alignRight="@+id/locationNameFind"
-                            android:layout_alignEnd="@+id/locationNameFind" />
+                            android:layout_alignEnd="@+id/locationNameFind"
+                            android:layout_marginBottom="5dp" />
 
-                        <TextView
+                        <cs403x.crowdcade.ArcadeTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Location Name:"
                             android:id="@+id/locationNameLabel"
                             android:layout_above="@+id/moreInfoButton"
                             android:layout_alignParentLeft="true"
-                            android:layout_alignParentStart="true" />
+                            android:layout_alignParentStart="true"
+                            android:layout_marginBottom="5dp" />
 
-                        <TextView
+                        <cs403x.crowdcade.ArcadeTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="N/A"
                             android:id="@+id/locationNameFind"
                             android:layout_above="@+id/moreInfoButton"
                             android:layout_alignRight="@+id/moreInfoButton"
-                            android:layout_alignEnd="@+id/moreInfoButton" />
+                            android:layout_alignEnd="@+id/moreInfoButton"
+                            android:layout_marginBottom="5dp" />
 
                         <Button
                             android:layout_width="wrap_content"
@@ -152,14 +160,14 @@
                         android:orientation="vertical"
                         android:paddingLeft="@dimen/activity_horizontal_margin"
                         android:paddingRight="@dimen/activity_horizontal_margin"
-                        android:paddingTop="10dp"
+                        android:paddingTop="15dp"
                         android:paddingBottom="@dimen/activity_vertical_margin">
-                        <TextView
+                        <cs403x.crowdcade.ArcadeTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Report a Game"
                             android:id="@+id/reportGameLabel"
-                            android:textSize="30dp"
+                            android:textSize="16dp"
                             android:layout_alignParentTop="true"
                             android:layout_alignParentLeft="true"
                             android:layout_alignParentStart="true" />
@@ -186,12 +194,12 @@
                             android:layout_alignEnd="@+id/gameNameText"
                             android:hint="Location" />
 
-                        <TextView
+                        <cs403x.crowdcade.ArcadeTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Address"
                             android:id="@+id/addressLabel"
-                            android:textSize="30dp"
+                            android:textSize="16dp"
                             android:layout_below="@+id/locationText"
                             android:layout_alignParentLeft="true"
                             android:layout_alignParentStart="true" />
@@ -207,14 +215,16 @@
                             android:layout_below="@+id/addressLabel"
                             android:layout_alignParentLeft="true"
                             android:layout_alignParentStart="true"
-                            android:layout_above="@+id/conditionLabel" />
+                            android:layout_above="@+id/conditionLabel"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginBottom="15dp" />
 
-                        <TextView
+                        <cs403x.crowdcade.ArcadeTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Condition"
                             android:id="@+id/conditionLabel"
-                            android:textSize="30dp"
+                            android:textSize="16dp"
                             android:gravity="center"
                             android:textAlignment="center"
                             android:layout_above="@+id/conditionRatingBar"
@@ -247,7 +257,7 @@
                             android:layout_alignParentEnd="true"
                             android:scaleType="centerInside"/>
 
-                        <TextView
+                        <cs403x.crowdcade.ArcadeTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Add Photo"
@@ -257,7 +267,7 @@
                             android:layout_alignStart="@+id/addPhotoButton"
                             android:layout_alignParentRight="true"
                             android:layout_alignParentEnd="true"
-                            android:textSize="20dp"
+                            android:textSize="16dp"
                             android:textAlignment="center" />
 
                         <Button

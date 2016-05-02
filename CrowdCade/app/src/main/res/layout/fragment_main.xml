@@ -8,7 +8,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="cs403x.crowdcade.MainActivity$PlaceholderFragment">
 
-    <TextView
+    <cs403x.crowdcade.ArcadeTextView
         android:id="@+id/section_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
