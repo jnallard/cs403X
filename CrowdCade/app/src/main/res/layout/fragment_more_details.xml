@@ -13,7 +13,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:textSize="14dp"
+        android:textSize="10dp"
         android:layout_marginBottom="5dp" />
 
     <cs403x.crowdcade.ArcadeTextView
@@ -25,21 +25,21 @@
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/gameNameLabel"
         android:layout_toEndOf="@+id/gameNameLabel"
-        android:textSize="14dp"
+        android:textSize="10dp"
         android:layout_marginBottom="5dp" />
 
     <cs403x.crowdcade.ArcadeTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Location Name:"
+        android:text="Venue:"
         android:id="@+id/locationNameLabel"
         android:layout_below="@+id/gameNameLabel"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="10dp"
         android:layout_marginRight="5dp"
-        android:textSize="14dp"
+        android:textSize="10dp"
         android:layout_marginBottom="5dp" />
 
     <cs403x.crowdcade.ArcadeTextView
@@ -51,7 +51,7 @@
         android:layout_above="@+id/addressLabel"
         android:layout_toRightOf="@+id/locationNameLabel"
         android:layout_toEndOf="@+id/locationNameLabel"
-        android:textSize="14dp"
+        android:textSize="10dp"
         android:layout_marginBottom="5dp" />
 
     <cs403x.crowdcade.ArcadeTextView
@@ -65,7 +65,7 @@
         android:layout_alignParentStart="true"
         android:layout_marginTop="10dp"
         android:layout_marginRight="5dp"
-        android:textSize="14dp"
+        android:textSize="10dp"
         android:layout_marginBottom="5dp" />
 
     <cs403x.crowdcade.ArcadeTextView
@@ -77,7 +77,7 @@
         android:layout_above="@+id/conditionLabel"
         android:layout_toRightOf="@+id/addressLabel"
         android:layout_toEndOf="@+id/addressLabel"
-        android:textSize="14dp"
+        android:textSize="10dp"
         android:layout_marginBottom="5dp" />
 
     <cs403x.crowdcade.ArcadeTextView
@@ -89,12 +89,12 @@
         android:layout_below="@+id/addressLabel"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_toStartOf="@+id/gameName"
+        android:layout_toStartOf="@+id/visitedButton"
         android:gravity="center_vertical"
-        android:layout_toLeftOf="@+id/gameName"
         android:layout_marginTop="10dp"
-        android:layout_marginRight="5dp"
-        android:textSize="14dp" />
+        android:textSize="10dp"
+        android:layout_alignRight="@+id/condition"
+        android:layout_alignEnd="@+id/condition" />
 
     <RatingBar
         android:layout_width="wrap_content"
@@ -121,7 +121,7 @@
         android:layout_alignBottom="@+id/visitedButton"
         android:layout_marginTop="10dp"
         android:layout_marginRight="5dp"
-        android:textSize="14dp"
+        android:textSize="10dp"
         android:layout_marginBottom="5dp" />
 
     <cs403x.crowdcade.ArcadeTextView
@@ -135,7 +135,7 @@
         android:layout_toRightOf="@+id/visitsLabel"
         android:layout_toEndOf="@+id/visitsLabel"
         android:layout_alignBottom="@+id/visitedButton"
-        android:textSize="14dp"
+        android:textSize="10dp"
         android:layout_marginBottom="5dp" />
 
     <cs403x.crowdcade.ArcadeButton

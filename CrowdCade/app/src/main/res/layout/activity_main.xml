@@ -108,7 +108,8 @@
                             android:layout_alignTop="@+id/gameNameFind"
                             android:layout_alignParentLeft="true"
                             android:layout_alignParentStart="true"
-                            android:layout_marginBottom="5dp" />
+                            android:layout_marginBottom="5dp"
+                            android:textSize="10dp" />
 
                         <cs403x.crowdcade.ArcadeTextView
                             android:layout_width="wrap_content"
@@ -118,17 +119,19 @@
                             android:layout_above="@+id/locationNameFind"
                             android:layout_alignRight="@+id/locationNameFind"
                             android:layout_alignEnd="@+id/locationNameFind"
-                            android:layout_marginBottom="5dp" />
+                            android:layout_marginBottom="5dp"
+                            android:textSize="10dp" />
 
                         <cs403x.crowdcade.ArcadeTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Location Name:"
+                            android:text="Venue:"
                             android:id="@+id/locationNameLabel"
                             android:layout_above="@+id/moreInfoButton"
                             android:layout_alignParentLeft="true"
                             android:layout_alignParentStart="true"
-                            android:layout_marginBottom="5dp" />
+                            android:layout_marginBottom="5dp"
+                            android:textSize="10dp" />
 
                         <cs403x.crowdcade.ArcadeTextView
                             android:layout_width="wrap_content"
@@ -138,7 +141,8 @@
                             android:layout_above="@+id/moreInfoButton"
                             android:layout_alignRight="@+id/moreInfoButton"
                             android:layout_alignEnd="@+id/moreInfoButton"
-                            android:layout_marginBottom="5dp" />
+                            android:layout_marginBottom="5dp"
+                            android:textSize="10dp" />
 
                         <cs403x.crowdcade.ArcadeButton
                             android:layout_width="wrap_content"
@@ -192,7 +196,7 @@
                             android:layout_alignParentStart="true"
                             android:layout_alignRight="@+id/gameNameText"
                             android:layout_alignEnd="@+id/gameNameText"
-                            android:hint="Location" />
+                            android:hint="Venue" />
 
                         <EditText
                             android:layout_width="wrap_content"
