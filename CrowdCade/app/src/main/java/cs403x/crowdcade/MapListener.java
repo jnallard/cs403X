@@ -13,9 +13,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import cs403x.crowdcade.MainActivity;
-import cs403x.crowdcade.NetworkManager;
-
 /**
  * Created by Joshua on 4/30/2016.
  */
@@ -58,7 +55,15 @@ public class MapListener implements OnMapReadyCallback {
         //Getting locations happens ASYNC. Modify the runnable to change behavior
         NetworkManager.getInstance().getArcadeEntries(mainActivity.arcadeEntriesLoaded);
 
+        initializeOnClickListener();
+    }
+
+    public void initializeOnClickListener() {
         if (isClickable){
+            if(addressMarker != null){
+                addressMarker.remove();
+                addressMarker = null;
+            }
             map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
 
                 @Override

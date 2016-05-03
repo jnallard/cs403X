@@ -1,5 +1,6 @@
 package cs403x.crowdcade;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -8,6 +9,8 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -81,6 +84,9 @@ public class MainActivity extends AppCompatActivity {
 
     public static Typeface tf;
 
+
+    private static final int MY_PERMISSIONS_REQUEST_READ_LOCATION = 1;
+
     //Use this runnable to determine what happens after the arcade locations are loaded.
     public ResponseRunnable arcadeEntriesLoaded = new ResponseRunnable(activity) {
 
@@ -137,6 +143,19 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                        != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,
+                            Manifest.permission.ACCESS_FINE_LOCATION},
+                    MY_PERMISSIONS_REQUEST_READ_LOCATION);
+
+        }
+
         activity = this;
         setContentView(R.layout.activity_main);
         setTitle(getString(R.string.app_name));
@@ -278,7 +297,8 @@ public class MainActivity extends AppCompatActivity {
                     gameNameText.setText("");
                     addressText.setText("");
                     locationNameText.setText("");
-                    mapReportListener.map.clear();
+                    //mapReportListener.map.clear();
+                    mapReportListener.initializeOnClickListener();
                     conditionRatingBar.setRating(0f);
                     cameraButton.setImageDrawable(getResources().getDrawable(android.R.drawable.ic_menu_camera));
                     ArcadeEntry newEntry;
