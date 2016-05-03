@@ -361,8 +361,10 @@ public class MainActivity extends AppCompatActivity {
     {
         if (photoFile != null || photoFile.exists()) {
             Bitmap bitmap = getScaledBitmap(photoFile.getPath(), this);
-            currentImage = bitmap;
-            cameraButton.setImageBitmap(currentImage);
+            if (bitmap != null) {
+                currentImage = bitmap;
+                cameraButton.setImageBitmap(currentImage);
+            }
         }
     }
 

@@ -41,7 +41,7 @@ public class MapListener implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         //mMapReport = googleMap;
         map = googleMap;
-        
+
         try {
             map.setMyLocationEnabled(true);
         }
