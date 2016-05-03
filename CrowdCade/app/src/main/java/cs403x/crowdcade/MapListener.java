@@ -41,6 +41,13 @@ public class MapListener implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         //mMapReport = googleMap;
         map = googleMap;
+        
+        try {
+            map.setMyLocationEnabled(true);
+        }
+        catch (SecurityException e){
+            e.printStackTrace();
+        }
 
         // Add a marker in Sydney and move the camera
         //LatLng sydney = new LatLng(-34, 151);
