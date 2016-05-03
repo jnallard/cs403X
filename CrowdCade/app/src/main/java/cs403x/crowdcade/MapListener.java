@@ -55,22 +55,23 @@ public class MapListener implements OnMapReadyCallback {
         //mMapFind.moveCamera(CameraUpdateFactory.newLatLng(sydney));
         //mMapFind.moveCamera(CameraUpdateFactory.zoomTo(10.0f));
 
-        centerMapOnMyLocation(12.5f);
-
         //centerMapOnMyLocation(mMapReport, 13.5f);
 
         //Getting locations happens ASYNC. Modify the runnable to change behavior
         NetworkManager.getInstance().getArcadeEntries(mainActivity.arcadeEntriesLoaded);
 
         initializeOnClickListener();
+
+        centerMapOnMyLocation(12.5f);
     }
 
     public void initializeOnClickListener() {
         if (isClickable){
             if(addressMarker != null){
                 addressMarker.remove();
-                addressMarker = null;
             }
+            placeAddressMarkerAtCurrentLoc();
+            
             map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
 
                 @Override
@@ -115,7 +116,6 @@ public class MapListener implements OnMapReadyCallback {
                         .zoom(zoomLevel)                   // Sets the zoom
                         .build();                   // Creates a CameraPosition from the builder
                 map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-
             }
         }
         catch (SecurityException ex){
@@ -128,5 +128,21 @@ public class MapListener implements OnMapReadyCallback {
             return addressMarker.getPosition();
         }
         return null;
+    }
+
+    private void placeAddressMarkerAtCurrentLoc(){
+        try {
+            LocationManager locationManager = (LocationManager) mainActivity.getSystemService(Context.LOCATION_SERVICE);
+            Criteria criteria = new Criteria();
+            Location location = locationManager.getLastKnownLocation(locationManager.getBestProvider(criteria, false));
+
+            if (location != null) {
+                MarkerOptions addressMarkerOptions = new MarkerOptions().position(new LatLng(location.getLatitude(), location.getLongitude()));
+                addressMarker = map.addMarker(addressMarkerOptions);
+            }
+        }
+        catch(SecurityException e){
+            e.printStackTrace();
+        }
     }
 }
